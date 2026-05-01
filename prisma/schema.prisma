@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -7,45 +8,15 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-// ==========================
-// USER
-// ==========================
-model User {
-  id        Int     @id @default(autoincrement())
-  nome      String
-  email     String  @unique
-  whatsapp  String
-
-  tags      Tag[]
-}
-
-// ==========================
-// TAG
-// ==========================
-model Tag {
-  id      Int    @id @default(autoincrement())
-  codigo  String @unique
-  status  String
-
-  userId  Int?
-  user    User?  @relation(fields: [userId], references: [id])
-}
-
-// ==========================
-// ORDER (PEDIDOS)
-// ==========================
 model Order {
-  id        Int     @id @default(autoincrement())
+  id        String @id @default(cuid())
+
   nome      String
-  email     String
-  telefone  String
-  cpf       String          // 👈 CAMPO NOVO
-  produto   String
-  cep       String
-  rua       String
-  numero    String
+  cpf       String @unique
+  endereco  String
   cidade    String
   estado    String
-  status    String
-  rastreio  String?
+  cep       String
+
+  createdAt DateTime @default(now())
 }
