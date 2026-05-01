@@ -7,10 +7,11 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "express": "^4.18.2",
+    "@prisma/client": "^5.22.0",
     "cors": "^2.8.5",
+    "express": "^4.18.2",
     "express-session": "^1.17.3",
-    "@prisma/client": "^5.22.0"
+    "nodemailer": "^8.0.7"
   },
   "devDependencies": {
     "prisma": "^5.22.0"
