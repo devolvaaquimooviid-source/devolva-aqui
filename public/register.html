@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Cadastrar Tag</title>
+<style>
+body { background:#000; color:#fff; font-family:Arial; text-align:center; padding:40px;}
+input { display:block; margin:10px auto; padding:10px; width:250px;}
+button { padding:10px 20px; background:#1DB954; border:none;}
+</style>
+</head>
+<body>
+
+<h1>Cadastrar Tag</h1>
+
+<input id="codigo" placeholder="Código da Tag">
+<input id="nome" placeholder="Nome completo">
+<input id="whatsapp" placeholder="WhatsApp">
+<input id="cidade" placeholder="Cidade">
+<input id="email" placeholder="Email">
+
+<button onclick="cadastrar()">Cadastrar</button>
+
+<script>
+async function cadastrar() {
+  const res = await fetch('/users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      codigo: document.getElementById('codigo').value,
+      nome: document.getElementById('nome').value,
+      whatsapp: document.getElementById('whatsapp').value,
+      cidade: document.getElementById('cidade').value,
+      email: document.getElementById('email').value
+    })
+  });
+
+  const data = await res.json();
+  alert('Cadastro realizado!');
+}
+</script>
+
+</body>
+</html>

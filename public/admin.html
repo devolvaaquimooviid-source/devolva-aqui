@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Painel Admin - Devolva Aqui</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Inter', sans-serif;
+  background: #000;
+  color: #fff;
+  padding: 40px;
+}
+
+h1 {
+  margin-bottom: 30px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #121212;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background: #1DB954;
+  color: #000;
+}
+
+tr {
+  border-bottom: 1px solid #222;
+}
+
+button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.enviar {
+  background: #1DB954;
+  color: #000;
+}
+
+.etiqueta {
+  background: #fff;
+  color: #000;
+  margin-left: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Pedidos</h1>
+
+<table id="tabela">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Produto</th>
+      <th>Status</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+async function carregarPedidos() {
+  const res = await fetch('/admin/orders');
+  const pedidos = await res.json();
+
+  const tbody = document.querySelector('tbody');
+  tbody.innerHTML = '';
+
+  pedidos.forEach(p => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${p.id}</td>
+        <td>${p.nome}</td>
+        <td>${p.produto}</td>
+        <td>${p.status}</td>
+        <td>
+          <button class="enviar" onclick="enviar(${p.id})">Marcar enviado</button>
+          <button class="etiqueta" onclick="etiqueta(${p.id})">Etiqueta</button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+async function enviar(id) {
+  await fetch('/admin/orders/' + id + '/send', {
+    method: 'PUT'
+  });
+  carregarPedidos();
+}
+
+function etiqueta(id) {
+  window.open('/admin/etiqueta/' + id, '_blank');
+}
+
+carregarPedidos();
+</script>
+
+</body>
+</html>

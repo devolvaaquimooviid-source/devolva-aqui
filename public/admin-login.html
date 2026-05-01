@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Admin Login</title>
+
+<style>
+body {
+  background:#000;
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  font-family:Arial;
+}
+
+.box {
+  background:#111;
+  padding:30px;
+  border-radius:20px;
+}
+
+input {
+  display:block;
+  width:250px;
+  margin-bottom:10px;
+  padding:10px;
+}
+
+button {
+  width:100%;
+  padding:10px;
+  background:#1DB954;
+  border:none;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<form class="box" method="POST" action="/auth/login">
+  <h2>Login Admin</h2>
+  <input name="email" placeholder="Email">
+  <input name="senha" type="password" placeholder="Senha">
+  <button>Entrar</button>
+</form>
+
+</body>
+</html>

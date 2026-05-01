@@ -1,0 +1,20 @@
+<h1>Minhas Tags</h1>
+
+<div id="tags"></div>
+
+<script>
+async function carregar() {
+  const res = await fetch('/users/me', {
+    headers: {
+      Authorization: 'Bearer ' + localStorage.getItem('token')
+    }
+  });
+
+  const data = await res.json();
+
+  document.getElementById('tags').innerHTML =
+    JSON.stringify(data, null, 2);
+}
+
+carregar();
+</script>

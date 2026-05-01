@@ -1,0 +1,18 @@
+[
+  {
+    "orderId": "OK-001",
+    "nome": "João Silva",
+    "endereco": "Rua Exemplo, 123",
+    "cidade": "Florianópolis",
+    "estado": "SC",
+    "cep": "88000-000"
+  },
+  {
+    "orderId": "OK-002",
+    "nome": "Maria Souza",
+    "endereco": "Av Brasil, 500",
+    "cidade": "São José",
+    "estado": "SC",
+    "cep": "88100-000"
+  }
+]
