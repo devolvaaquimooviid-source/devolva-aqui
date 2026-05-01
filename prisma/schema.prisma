@@ -10,13 +10,11 @@ datasource db {
 
 model Order {
   id        String @id @default(cuid())
-
   nome      String
   cpf       String @unique
   endereco  String
   cidade    String
   estado    String
   cep       String
-
   createdAt DateTime @default(now())
 }
