@@ -5,58 +5,72 @@ const cors = require('cors');
 
 const app = express();
 
-// 🔥 LOGIN FIXO (TEMPORÁRIO)
-process.env.ADMIN_EMAIL = 'admin@moovi.com';
-process.env.ADMIN_PASSWORD = '123456';
-
-// Middlewares básicos
-app.use(cors());
+// Configurações de Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
-// sessão
+// Configuração de Sessão para o Admin
 app.use(session({
-  secret: 'devolva-aqui-admin',
+  secret: 'devolva-aqui-secret-key',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: true,
+  cookie: { secure: false } // Em produção com HTTPS, o Render lida com isso
 }));
 
-// ======================
-// ROTAS
-// ======================
-const adminRoutes      = require('./routes/adminRoutes');
-const authRoutes       = require('./routes/authRoutes');
-const orderRoutes      = require('./routes/orderRoutes');
-const tagRoutes        = require('./routes/tagRoutes');
-const userRoutes       = require('./routes/userRoutes');
-const labelRoutes      = require('./routes/labelRoutes');
-const authMiddleware   = require('./middleware/authMiddleware');
-
-// 🔐 ADMIN PROTEGIDO
-app.use('/admin', authMiddleware, adminRoutes);
-
-// 🧾 ETIQUETAS (IMPORTANTE: SEM /admin)
-app.use('/', labelRoutes);
-
-// resto das rotas
-app.use('/auth', authRoutes);
-app.use('/orders', orderRoutes);
-app.use('/tags', tagRoutes);
-app.use('/users', userRoutes);
-
-// arquivos estáticos
+// Servir arquivos estáticos (CSS, JS frontal, Imagens)
+// Assume-se que suas pastas 'public', 'img', etc, estão na raiz do projeto
 app.use(express.static(path.join(__dirname, '../public')));
+app.use('/img', express.static(path.join(__dirname, '../public/img')));
 
-// home
+// --- ROTAS DE NAVEGAÇÃO (ENTREGA DE PÁGINAS) ---
+
+// Página Inicial
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-// servidor
-const PORT = 3000;
-
-app.listen(PORT, () => {
-  console.log(`Servidor rodando 🚀 na porta ${PORT}`);
+// Página de Cadastro de Tag
+app.get('/register.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/register.html'));
 });
 
-module.exports = app;
+// Página de Login (Geral/Admin)
+app.get('/auth/login', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/login.html'));
+});
+
+// --- LÓGICA DE LOGIN DO ADMIN ---
+
+app.post('/auth/login', (req, res) => {
+  const { email, senha } = req.body;
+
+  // LOGIN FIXO (Ajuste com suas credenciais reais)
+  if (email === 'admin@email.com' && senha === 'admin123') {
+    req.session.isAdmin = true;
+    return res.redirect('/admin/dashboard');
+  } else {
+    return res.status(401).send('Credenciais inválidas. Volte e tente novamente.');
+  }
+});
+
+// Dashboard do Admin (Protegido por sessão)
+app.get('/admin/dashboard', (req, res) => {
+  if (req.session.isAdmin) {
+    res.sendFile(path.join(__dirname, '../public/admin.html'));
+  } else {
+    res.redirect('/auth/login');
+  }
+});
+
+// Rota de Logout
+app.get('/auth/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/');
+});
+
+// Porta dinâmica para o Render
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});
