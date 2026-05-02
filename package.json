@@ -4,9 +4,9 @@
   "description": "Sistema Devolva Aqui",
   "main": "src/app.js",
   "scripts": {
-    "build": "npm install && ./node_modules/.bin/prisma generate",
+    "build": "npm install && node node_modules/prisma/build/index.js generate",
     "start": "node src/app.js",
-    "postinstall": "./node_modules/.bin/prisma generate"
+    "postinstall": "node node_modules/prisma/build/index.js generate"
   },
   "keywords": [],
   "author": "",
