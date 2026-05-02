@@ -62,28 +62,32 @@ function toggleOutro() {
 async function cadastrar() {
   const objetoSelecionado = document.getElementById('objeto').value;
   const outroValor = document.getElementById('outro_objeto').value;
-  
-  // Se for "Outro", usa o valor digitado, senão usa o do select
   const objetoFinal = (objetoSelecionado === 'Outro') ? outroValor : objetoSelecionado;
 
-  const res = await fetch('/users', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      codigo: document.getElementById('codigo').value,
-      nome: document.getElementById('nome').value,
-      whatsapp: document.getElementById('whatsapp').value,
-      cidade: document.getElementById('cidade').value,
-      email: document.getElementById('email').value,
-      objeto: objetoFinal
-    })
-  });
+  const payload = {
+    codigo: document.getElementById('codigo').value,
+    nome: document.getElementById('nome').value,
+    whatsapp: document.getElementById('whatsapp').value,
+    cidade: document.getElementById('cidade').value,
+    email: document.getElementById('email').value,
+    objeto: objetoFinal
+  };
 
-  if (res.ok) {
-    alert('Cadastro realizado!');
-    window.location.href = '/'; // Redireciona para a home após o OK
-  } else {
-    alert('Erro ao cadastrar. Verifique os dados.');
+  try {
+    const res = await fetch('/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      alert('Cadastro realizado com sucesso!');
+      window.location.href = '/'; // Redireciona para a home após o OK
+    } else {
+      alert('Erro ao cadastrar. Verifique se o código da tag já existe ou se os campos estão corretos.');
+    }
+  } catch (error) {
+    alert('Erro de conexão com o servidor.');
   }
 }
 </script>
