@@ -4,7 +4,7 @@
   "description": "Sistema Devolva Aqui",
   "main": "src/app.js",
   "scripts": {
-    "build": "npx prisma generate",
+    "build": "npm install && npx prisma generate",
     "start": "node src/app.js",
     "postinstall": "npx prisma generate"
   },
