@@ -1,6 +1,7 @@
 {
   "name": "devolva-aqui",
   "version": "1.0.0",
+  "description": "Sistema Devolva Aqui",
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js"
