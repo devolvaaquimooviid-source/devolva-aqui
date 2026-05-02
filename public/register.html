@@ -1,28 +1,71 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<title>Cadastrar Tag</title>
-<style>
-body { background:#000; color:#fff; font-family:Arial; text-align:center; padding:40px;}
-input { display:block; margin:10px auto; padding:10px; width:250px;}
-button { padding:10px 20px; background:#1DB954; border:none;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastrar Tag</title>
+  <style>
+    body { background:#000; color:#fff; font-family:Arial, sans-serif; text-align:center; padding:40px; }
+    .form-container { max-width: 300px; margin: 0 auto; }
+    input, select { display:block; margin:15px auto; padding:12px; width:100%; border-radius:8px; border:1px solid #333; background:#1a1a1a; color:#fff; box-sizing: border-box; }
+    button { padding:12px 24px; background:#1DB954; border:none; border-radius:50px; font-weight:bold; cursor:pointer; width:100%; }
+    button:hover { background:#17a34a; }
+    label { display:block; text-align:left; font-size:0.85rem; color:#aaa; margin-bottom:-10px; margin-left:5px; }
+    #outro-container { display: none; }
+  </style>
 </head>
 <body>
 
 <h1>Cadastrar Tag</h1>
 
-<input id="codigo" placeholder="Código da Tag">
-<input id="nome" placeholder="Nome completo">
-<input id="whatsapp" placeholder="WhatsApp">
-<input id="cidade" placeholder="Cidade">
-<input id="email" placeholder="Email">
+<div class="form-container">
+  <input id="codigo" placeholder="Código da Tag">
+  <input id="nome" placeholder="Nome completo">
+  <input id="whatsapp" placeholder="WhatsApp">
+  <input id="cidade" placeholder="Cidade">
+  <input id="email" placeholder="Email">
 
-<button onclick="cadastrar()">Cadastrar</button>
+  <label for="objeto">O que você vai proteger?</label>
+  <select id="objeto" onchange="toggleOutro()">
+    <option value="" disabled selected>Selecione o objeto</option>
+    <option value="Carregador">Carregador</option>
+    <option value="Carregador sem fio">Carregador sem fio</option>
+    <option value="Cartões">Cartões</option>
+    <option value="Carteira">Carteira</option>
+    <option value="Chaves carro">Chaves carro</option>
+    <option value="Chaves casa">Chaves casa</option>
+    <option value="Chaves trabalho">Chaves trabalho</option>
+    <option value="Copo/Garrafa térmica">Copo/Garrafa térmica</option>
+    <option value="Crachá">Crachá</option>
+    <option value="Fone de ouvido">Fone de ouvido</option>
+    <option value="Guarda-chuvas">Guarda-chuvas</option>
+    <option value="Lancheira">Lancheira</option>
+    <option value="Mouse">Mouse</option>
+    <option value="Relogio">Relogio</option>
+    <option value="Outro">Outro (especificar)</option>
+  </select>
+
+  <div id="outro-container">
+    <input id="outro_objeto" placeholder="Digite o nome do objeto">
+  </div>
+
+  <button onclick="cadastrar()">Cadastrar</button>
+</div>
 
 <script>
+function toggleOutro() {
+  const select = document.getElementById('objeto');
+  const container = document.getElementById('outro-container');
+  container.style.display = (select.value === 'Outro') ? 'block' : 'none';
+}
+
 async function cadastrar() {
+  const objetoSelecionado = document.getElementById('objeto').value;
+  const outroValor = document.getElementById('outro_objeto').value;
+  
+  // Se for "Outro", usa o valor digitado, senão usa o do select
+  const objetoFinal = (objetoSelecionado === 'Outro') ? outroValor : objetoSelecionado;
+
   const res = await fetch('/users', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -31,12 +74,17 @@ async function cadastrar() {
       nome: document.getElementById('nome').value,
       whatsapp: document.getElementById('whatsapp').value,
       cidade: document.getElementById('cidade').value,
-      email: document.getElementById('email').value
+      email: document.getElementById('email').value,
+      objeto: objetoFinal
     })
   });
 
-  const data = await res.json();
-  alert('Cadastro realizado!');
+  if (res.ok) {
+    alert('Cadastro realizado!');
+    window.location.href = '/'; // Redireciona para a home após o OK
+  } else {
+    alert('Erro ao cadastrar. Verifique os dados.');
+  }
 }
 </script>
 
