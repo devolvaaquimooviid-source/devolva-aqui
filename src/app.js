@@ -20,34 +20,36 @@ app.use(session({
   cookie: { secure: false }
 }));
 
-// Servir arquivos estáticos
-app.use(express.static(path.join(__dirname, '../public')));
-app.use('/img', express.static(path.join(__dirname, '../public/img')));
+// --- ROTAS DE NAVEGAÇÃO ESPECÍFICAS (Devem vir ANTES do static) ---
 
-// --- ROTAS DE NAVEGAÇÃO ---
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
-});
-
+// Rota para a página de Login do Admin
 app.get('/auth/login', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/login.html'));
 });
 
-// --- ROTA DE CADASTRO (API) ---
+// Rota para o Dashboard do Admin
+app.get('/admin/dashboard', (req, res) => {
+  if (req.session.isAdmin) {
+    res.sendFile(path.join(__dirname, '../public/admin.html'));
+  } else {
+    res.redirect('/auth/login');
+  }
+});
+
+// --- ARQUIVOS ESTÁTICOS ---
+app.use(express.static(path.join(__dirname, '../public')));
+app.use('/img', express.static(path.join(__dirname, '../public/img')));
+
+// --- ROTAS DE API ---
 
 app.post('/users', async (req, res) => {
   const { codigo, nome, whatsapp, cidade, email, objeto } = req.body;
-
   try {
-    // Salva o usuário e a tag vinculada no banco de dados
     const novoUsuario = await prisma.user.create({
       data: {
         nome,
         email,
         whatsapp,
-        // Aqui assumimos que você quer salvar a cidade ou objeto em algum campo.
-        // Como seu schema original não tinha 'objeto', vamos salvar 'status' como o nome do objeto por enquanto para não quebrar o banco.
         tags: {
           create: {
             codigo: codigo,
@@ -58,15 +60,13 @@ app.post('/users', async (req, res) => {
     });
     res.status(201).json(novoUsuario);
   } catch (error) {
-    console.error(error);
-    res.status(400).json({ error: "Erro ao cadastrar tag ou código já existente." });
+    res.status(400).json({ error: "Erro ao cadastrar. Código já existe." });
   }
 });
 
-// --- LÓGICA DE LOGIN DO ADMIN ---
-
 app.post('/auth/login', (req, res) => {
   const { email, senha } = req.body;
+  // Use as credenciais que você definiu
   if (email === 'admin@email.com' && senha === 'admin123') {
     req.session.isAdmin = true;
     return res.redirect('/admin/dashboard');
@@ -75,12 +75,9 @@ app.post('/auth/login', (req, res) => {
   }
 });
 
-app.get('/admin/dashboard', (req, res) => {
-  if (req.session.isAdmin) {
-    res.sendFile(path.join(__dirname, '../public/admin.html'));
-  } else {
-    res.redirect('/auth/login');
-  }
+// Página Inicial (Home) - Captura qualquer outra rota raiz
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 // Porta
