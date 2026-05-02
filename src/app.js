@@ -7,41 +7,57 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const app = express();
 
-// Configurações de Middleware
+// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Configuração de Sessão
 app.use(session({
-  secret: 'devolva-aqui-secret-key',
+  secret: 'devolva-aqui-secret-123',
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false }
 }));
 
-// --- ROTAS DE NAVEGAÇÃO ESPECÍFICAS (Devem vir ANTES do static) ---
+// --- ROTAS DE NAVEGAÇÃO (PÁGINAS) ---
 
-// Rota para a página de Login do Admin
+// Login do Admin (Agora aponta para acesso_restrito.html)
 app.get('/auth/login', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/login.html'));
+  res.sendFile(path.join(__dirname, '../public/acesso_restrito.html'));
 });
 
-// Rota para o Dashboard do Admin
+// Dashboard do Admin (Agora aponta para painel_controle.html)
 app.get('/admin/dashboard', (req, res) => {
   if (req.session.isAdmin) {
-    res.sendFile(path.join(__dirname, '../public/admin.html'));
+    res.sendFile(path.join(__dirname, '../public/painel_controle.html'));
   } else {
     res.redirect('/auth/login');
   }
 });
 
-// --- ARQUIVOS ESTÁTICOS ---
+// Página Inicial
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+// Arquivos estáticos (Imagens, CSS) - Vem DEPOIS das rotas principais
 app.use(express.static(path.join(__dirname, '../public')));
-app.use('/img', express.static(path.join(__dirname, '../public/img')));
 
-// --- ROTAS DE API ---
+// --- ROTAS DE API (DADOS) ---
 
+// Login Post
+app.post('/auth/login', (req, res) => {
+  const { email, senha } = req.body;
+  if (email === 'admin@email.com' && senha === 'admin123') {
+    req.session.isAdmin = true;
+    return res.redirect('/admin/dashboard');
+  } else {
+    return res.status(401).send('Login incorreto. Tente novamente.');
+  }
+});
+
+// Cadastro de Usuários/Tags
 app.post('/users', async (req, res) => {
   const { codigo, nome, whatsapp, cidade, email, objeto } = req.body;
   try {
@@ -60,27 +76,11 @@ app.post('/users', async (req, res) => {
     });
     res.status(201).json(novoUsuario);
   } catch (error) {
-    res.status(400).json({ error: "Erro ao cadastrar. Código já existe." });
+    res.status(400).json({ error: "Erro ao cadastrar. Verifique o código." });
   }
 });
 
-app.post('/auth/login', (req, res) => {
-  const { email, senha } = req.body;
-  // Use as credenciais que você definiu
-  if (email === 'admin@email.com' && senha === 'admin123') {
-    req.session.isAdmin = true;
-    return res.redirect('/admin/dashboard');
-  } else {
-    return res.status(401).send('Credenciais inválidas.');
-  }
-});
-
-// Página Inicial (Home) - Captura qualquer outra rota raiz
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
-});
-
-// Porta
+// Porta do Servidor
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
