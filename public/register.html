@@ -19,13 +19,17 @@
 <h1>Cadastrar Tag</h1>
 
 <div class="form-container">
-  <input id="codigo" placeholder="Código da Tag">
+  <!-- Campos alinhados com o Banco de Dados e app.js -->
+  <input id="codigo" placeholder="Código da Tag (Ex: ABC-123)">
   <input id="nome" placeholder="Nome completo">
-  <input id="whatsapp" placeholder="WhatsApp">
-  <input id="cidade" placeholder="Cidade">
-  <input id="email" placeholder="Email">
+  <input id="cpf" placeholder="CPF (Apenas números)">
+  
+  <label for="nascimento" style="margin-top:10px;">Data de Nascimento</label>
+  <input id="nascimento" type="date">
+  
+  <input id="endereco" placeholder="Endereço de Entrega/Contato">
 
-  <label for="objeto">O que você vai proteger?</label>
+  <label for="objeto" style="margin-top:10px;">O que você vai proteger?</label>
   <select id="objeto" onchange="toggleOutro()">
     <option value="" disabled selected>Selecione o objeto</option>
     <option value="Carregador">Carregador</option>
@@ -49,7 +53,7 @@
     <input id="outro_objeto" placeholder="Digite o nome do objeto">
   </div>
 
-  <button onclick="cadastrar()">Cadastrar</button>
+  <button onclick="cadastrar()" style="margin-top: 20px;">Cadastrar</button>
 </div>
 
 <script>
@@ -64,14 +68,21 @@ async function cadastrar() {
   const outroValor = document.getElementById('outro_objeto').value;
   const objetoFinal = (objetoSelecionado === 'Outro') ? outroValor : objetoSelecionado;
 
+  // Payload corrigido para bater com o app.js
   const payload = {
     codigo: document.getElementById('codigo').value,
     nome: document.getElementById('nome').value,
-    whatsapp: document.getElementById('whatsapp').value,
-    cidade: document.getElementById('cidade').value,
-    email: document.getElementById('email').value,
+    cpf: document.getElementById('cpf').value,
+    nascimento: document.getElementById('nascimento').value,
+    endereco: document.getElementById('endereco').value,
     objeto: objetoFinal
   };
+
+  // Validação básica para impedir envio vazio
+  if (!payload.codigo || !payload.nome || !payload.cpf || !payload.nascimento || !payload.endereco || !payload.objeto) {
+    alert("Preencha todos os campos antes de cadastrar.");
+    return;
+  }
 
   try {
     const res = await fetch('/users', {
@@ -82,9 +93,10 @@ async function cadastrar() {
 
     if (res.ok) {
       alert('Cadastro realizado com sucesso!');
-      window.location.href = '/'; // Redireciona para a home após o OK
+      window.location.href = '/'; 
     } else {
-      alert('Erro ao cadastrar. Verifique se o código da tag já existe ou se os campos estão corretos.');
+      const data = await res.json();
+      alert('Erro: ' + (data.error || 'Verifique se o código da tag ou CPF já existem.'));
     }
   } catch (error) {
     alert('Erro de conexão com o servidor.');
