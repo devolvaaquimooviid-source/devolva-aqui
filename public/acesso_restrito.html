@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Devolva Aqui</title>
+<title>Minha Conta - Devolva Aqui</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -29,79 +29,77 @@ header {
   border-bottom: 1px solid #111;
 }
 
-.hero {
+.container {
+  max-width: 500px;
+  margin: 60px auto;
+  padding: 30px;
+  background: #121212;
+  border-radius: 20px;
+  border: 1px solid #1a1a1a;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
   text-align: center;
-  padding: 80px 20px;
 }
 
-.hero h1 {
-  font-size: 36px;
-  margin-bottom: 15px;
-}
-
-.hero p {
+p.subtitle {
   color: #aaa;
+  text-align: center;
   margin-bottom: 30px;
+  font-size: 14px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #1DB954;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: #fff;
   font-size: 16px;
 }
 
+input:focus {
+  outline: none;
+  border-color: #1DB954;
+}
+
+input[readonly] {
+  color: #666;
+  cursor: not-allowed;
+}
+
 .btn {
+  width: 100%;
   background: #1DB954;
   color: #000;
-  padding: 15px 30px;
+  padding: 15px;
   border-radius: 50px;
-  text-decoration: none;
+  border: none;
   font-weight: bold;
-  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
   transition: 0.3s;
+  margin-top: 10px;
 }
 
 .btn:hover {
   background: #1ed760;
-  transform: scale(1.05);
-}
-
-.kits {
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-  padding: 60px 20px;
-  flex-wrap: wrap;
-}
-
-.card {
-  background: #121212;
-  padding: 30px;
-  border-radius: 20px;
-  width: 260px;
-  text-align: center;
-  border: 1px solid #1a1a1a;
-}
-
-.card h2 {
-  margin-bottom: 10px;
-}
-
-.card p {
-  color: #aaa;
-  font-size: 14px;
-}
-
-.price {
-  font-size: 24px;
-  margin: 20px 0;
-  color: #1DB954;
-  font-weight: bold;
-}
-
-.badge {
-  background: #1DB954;
-  color: #000;
-  font-size: 12px;
-  padding: 5px 10px;
-  border-radius: 10px;
-  display: inline-block;
-  margin-bottom: 10px;
+  transform: scale(1.02);
 }
 
 footer {
@@ -119,42 +117,70 @@ footer {
 DEVOLVA AQUI
 </header>
 
-<section class="hero">
-  <h1>Perdeu? A gente ajuda a devolver.</h1>
-  <p>Tags inteligentes com código único que conectam quem encontrou ao dono em segundos.</p>
-  <a href="#kits" class="btn">Comprar agora</a>
-</section>
+<div class="container">
+  <h1>Minha Conta</h1>
+  <p class="subtitle">Atualize seus dados de contato abaixo.</p>
 
-<section id="kits" class="kits">
+  <form id="perfilForm">
+    <div class="form-group">
+      <label>CPF (Identificador)</label>
+      <input type="text" id="cpf" placeholder="Digite seu CPF para validar" required>
+    </div>
 
-  <div class="card">
-    <h2>Kit 3 Tags</h2>
-    <p>Ideal para uso pessoal</p>
-    <div class="price">R$ 29,90</div>
-    <a class="btn" href="#">Comprar</a>
-  </div>
+    <div class="form-group">
+      <label>Novo E-mail</label>
+      <input type="email" id="email" placeholder="seu@email.com" required>
+    </div>
 
-  <div class="card">
-    <div class="badge">Mais vendido</div>
-    <h2>Kit 6 Tags</h2>
-    <p>Perfeito para família</p>
-    <div class="price">R$ 49,90</div>
-    <a class="btn" href="#">Comprar</a>
-  </div>
+    <div class="form-group">
+      <label>Novo Telefone</label>
+      <input type="text" id="telefone" placeholder="(00) 00000-0000" required>
+    </div>
 
-  <div class="card">
-    <div class="badge">Melhor valor</div>
-    <h2>Kit 12 Tags</h2>
-    <p>Economia máxima</p>
-    <div class="price">R$ 79,90</div>
-    <a class="btn" href="#">Comprar</a>
-  </div>
+    <div class="form-group">
+      <label>Nova Cidade</label>
+      <input type="text" id="cidade" placeholder="Sua Cidade" required>
+    </div>
 
-</section>
+    <button type="submit" class="btn">Salvar Alterações</button>
+  </form>
+</div>
 
 <footer>
 © Devolva Aqui — Todos os direitos reservados
 </footer>
+
+<script>
+document.getElementById('perfilForm').onsubmit = async (e) => {
+    e.preventDefault();
+
+    const dados = {
+        cpf: document.getElementById('cpf').value,
+        email: document.getElementById('email').value,
+        telefone: document.getElementById('telefone').value,
+        cidade: document.getElementById('cidade').value
+    };
+
+    try {
+        const res = await fetch('/perfil/update', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dados)
+        });
+
+        const result = await res.json();
+
+        if (result.success) {
+            alert('Dados atualizados com sucesso!');
+        } else {
+            alert('Erro ao atualizar. Verifique se o CPF está correto.');
+        }
+    } catch (err) {
+        console.error('Erro na requisição:', err);
+        alert('Erro de conexão com o servidor.');
+    }
+};
+</script>
 
 </body>
 </html>
