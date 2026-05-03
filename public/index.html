@@ -24,30 +24,12 @@
         body { background: #000; color: #fff; font-family: sans-serif; margin: 0; padding: 0; text-align: center; }
         .container { padding: 15px; max-width: 800px; margin: 0 auto; position: relative; }
         
-        /* Banners Laterais Verticais */
-        .side-banner {
-            background: #1DB954;
-            color: #000;
-            font-weight: bold;
-            padding: 10px;
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            font-size: 14px;
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 5px;
-            z-index: 100;
-        }
+        .side-banner { background: #1DB954; color: #000; font-weight: bold; padding: 10px; position: fixed; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; text-orientation: mixed; font-size: 14px; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 5px; z-index: 100; }
         .left-banner { left: 0; }
         .right-banner { right: 0; }
 
-        .top-nav { display: flex; justify-content: space-between; padding: 10px; font-size: 12px; }
-        .top-nav a { color: #555; text-decoration: none; }
+        .top-nav { display: flex; justify-content: space-between; padding: 15px; font-size: 13px; background: #111; }
+        .top-nav a { color: #1DB954; text-decoration: none; font-weight: bold; }
 
         img { max-width: 100%; height: auto; display: block; margin: 10px auto; border-radius: 8px; }
         .logo { width: 140px; margin-top: 5px; }
@@ -62,9 +44,9 @@
         .preco-antigo { text-decoration: line-through; color: #777; font-size: 16px; }
         .preco-novo { color: #1DB954; font-size: 32px; font-weight: bold; display: block; margin: 5px 0; }
 
-        .btn { background: #1DB954; color: #000; padding: 18px; text-decoration: none; border-radius: 8px; font-weight: bold; width: 95%; max-width: 350px; font-size: 18px; display: inline-block; margin-top: 15px; }
+        .btn { background: #1DB954; color: #000; padding: 18px; text-decoration: none; border-radius: 8px; font-weight: bold; width: 95%; max-width: 350px; font-size: 18px; display: inline-block; margin-top: 15px; border: none; cursor: pointer; }
         .btn-outline { background: transparent; border: 2px solid #1DB954; color: #1DB954; margin-top: 10px; }
-        .btn-politica { font-size: 12px; color: #888; text-decoration: underline; background: none; border: none; cursor: pointer; margin-top: 20px; }
+        .btn-politica { font-size: 12px; color: #888; text-decoration: underline; background: none; border: none; cursor: pointer; display: block; margin: 20px auto; }
 
         footer { padding: 40px 20px; font-size: 12px; color: #666; border-top: 1px solid #222; margin-top: 50px; }
 
@@ -75,10 +57,10 @@
     <div class="side-banner left-banner">LANÇAMENTO PRÉ VENDA</div>
     <div class="side-banner right-banner">LANÇAMENTO PRÉ VENDA</div>
 
-    <div class="top-nav">
-        <a href="/admin-login">Login ADM</a>
-        <a href="/perfil">Alterar Cadastro / Minha Conta</a>
-    </div>
+    <nav class="top-nav">
+        <a href="/login">LOGIN ADM</a>
+        <a href="/perfil">MINHA CONTA</a>
+    </nav>
 
     <div class="container">
         <img src="img/logo.png" alt="Logo Devolva Aqui" class="logo">
@@ -92,18 +74,11 @@
             <h1>Dê uma chance para a honestidade (e para o seu bolso)</h1>
             <p><strong>Tem gente boa no mundo, elas só precisam de um jeito fácil de te encontrar.</strong></p>
 
-            <p>Apresentamos a <strong>Devolva Aqui, as menores tags do mundo</strong>. Elas são minúsculas no tamanho, mas gigantes na missão de trazer itens perdidos para casa. Perder as chaves do carro, por exemplo, não é apenas um prejuízo financeiro alto; é um transtorno logístico que para o seu dia e custa caro para resolver. Nossas micro tags de 2,5mm x 20mm são o "seguro" mais barato e inteligente que você pode ter para proteger seu patrimônio.</p>
+            <p>Apresentamos a <strong>Devolva Aqui, as menores tags do mundo</strong>. Elas são minúsculas no tamanho, mas gigantes na missão de trazer itens perdidos para casa. Perder as chaves do carro (2,5mm x 20mm) gera um transtorno logístico imenso. Proteja seu patrimônio com inteligência.</p>
 
             <p><strong>Se você também acredita que o mundo pode ser um lugar melhor, nossas micro tags são para você.</strong></p>
 
-            <h3>O Caminho da Volta:</h3>
-            <ul>
-                <li><strong>O Código da Salvação:</strong> Cada tag tem um código alfanumérico único de 6 dígitos, criado para evitar confusões de leitura.</li>
-                <li><strong>O Contato Direto:</strong> Quem encontra não precisa ser detetive. Entrou no site, digitou o ID, falou com você.</li>
-                <li><strong>O Final Feliz:</strong> Você recupera seu item e ainda recupera a fé na humanidade.</li>
-            </ul>
-
-            <!-- KIT 3 -->
+            <!-- KITS COM PREÇOS CORRIGIDOS -->
             <div class="oferta-card">
                 <img src="img/kit3.png" alt="Kit 3 Tags">
                 <p><strong>KIT 3 TAGS - PRÉ-VENDA 40% OFF</strong></p>
@@ -112,7 +87,6 @@
                 <a href="https://link.mercadopago.com.br/devolvaaquikit3" class="btn">COMPRAR AGORA</a>
             </div>
 
-            <!-- KIT 6 -->
             <div class="oferta-card">
                 <img src="img/kit6.png" alt="Kit 6 Tags">
                 <p><strong>KIT 6 TAGS - PRÉ-VENDA 40% OFF</strong></p>
@@ -121,7 +95,6 @@
                 <a href="https://link.mercadopago.com.br/devolvaaquikit6" class="btn">COMPRAR AGORA</a>
             </div>
 
-            <!-- KIT 12 -->
             <div class="oferta-card">
                 <img src="img/kit12.png" alt="Kit 12 Tags">
                 <p><strong>KIT 12 TAGS - PRÉ-VENDA 40% OFF</strong></p>
@@ -130,28 +103,11 @@
                 <a href="https://link.mercadopago.com.br/devolvaaquikit12" class="btn">COMPRAR AGORA</a>
             </div>
 
-            <h3>🚀 Manual de Instruções:</h3>
-            <p><strong>Passo 1: A Colagem Estratégica</strong><br>
-            Garanta que o objeto esteja <strong>limpo e bem seco</strong> antes da aplicação. Pressione a tag por alguns segundos.</p>
-
-            <p><em>⚠️ Aviso de amigo: Nossas tags são valentes, mas não foram feitas para tecido. Como não garantimos uma adesão duradoura em tecido, evite colá-las em roupas, ok?</em></p>
-
-            <p><strong>💡 Sugestões de uso:</strong><br>
-            Chaves, AirPods, carteira, óculos, notebook, carregadores, drones, garrafas e copos térmicos, controle de portões e tudo mais que sua imaginação alcançar!</p>
-
-            <p><strong>Passo 2: O Registro Oficial</strong><br>
-            Acesse <strong>www.devolvaaqui.com.br</strong>, insira seus dados e o código da sua tag.</p>
-
-            <div style="text-align: center;">
-                <a href="/register.html" class="btn btn-outline">CADASTRAR MINHA TAG</a><br>
-                <a href="/politica" class="btn-politica">Política de Uso</a>
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="/register" class="btn btn-outline">CADASTRAR MINHA TAG</a>
+                <a href="/politica.html" class="btn-politica">Política de Uso e Privacidade</a>
             </div>
         </div>
-
-        <a href="https://www.instagram.com/devolvaaquimooviid?igsh=MWgyZmVraHozd3R3MQ==" target="_blank" class="instagram-link">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" width="25" style="margin:0;">
-            <span>@devolvaaquimooviid</span>
-        </a>
 
         <footer>
             MOOVIDENT INOVA SIMPLES I S - ME<br>
