@@ -2,10 +2,20 @@ const express = require('express');
 const path = require('path');
 const session = require('express-session');
 const { Pool } = require('pg');
+const nodemailer = require('nodemailer');
 
 const pool = new Pool({ 
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
+});
+
+// CONFIGURAÇÃO DE E-MAIL
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'devolvaaquimooviid@gmail.com',
+    pass: process.env.GMAIL_PASSWORD // Configurada no Render
+  }
 });
 
 const app = express();
@@ -17,10 +27,9 @@ app.use(session({
   saveUninitialized: true 
 }));
 
-// Define a pasta public na raiz
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ROTA: CHECKOUT
+// ROTA: CHECKOUT + E-MAIL DE CONFIRMAÇÃO
 app.post('/orders/create', async (req, res) => {
   const { nome, email, telefone, cpf, produto, cep, rua, numero, cidade, estado } = req.body;
   try {
@@ -29,6 +38,17 @@ app.post('/orders/create', async (req, res) => {
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
       [nome, email, telefone, cpf, produto, cep, rua, numero, cidade, estado]
     );
+
+    // Envio do e-mail de confirmação
+    const mailOptions = {
+      from: 'devolvaaquimooviid@gmail.com',
+      to: email,
+      subject: 'Confirmação de Pedido - Devolva Aqui',
+      html: `<h1>Olá, ${nome}!</h1><p>Recebemos seu pedido do <strong>${produto}</strong>.</p><p>Assim que o pagamento for confirmado, prepararemos o envio das suas etiquetas!</p>`
+    };
+    
+    transporter.sendMail(mailOptions).catch(err => console.log("Erro e-mail:", err));
+
     res.json({ success: true });
   } catch (err) {
     console.error(err);
@@ -36,28 +56,32 @@ app.post('/orders/create', async (req, res) => {
   }
 });
 
-// ROTA: CADASTRO DE TAG
-app.post('/users', async (req, res) => {
-  const { codigo, nome, cpf, nascimento, endereco, objeto } = req.body;
+// ROTA: ENVIAR RASTREIO (USADA PELO ADMIN)
+app.post('/admin/send-tracking', async (req, res) => {
+  if (!req.session.isAdmin) return res.status(401).send("Não autorizado");
+  const { pedidoId, codigoRastreio } = req.body;
+
   try {
-    const codigoFormatado = codigo.replace(/-/g, '').toUpperCase();
-    const clientResult = await pool.query(
-      'INSERT INTO clientes (nome_completo, cpf, data_nascimento, endereco_entrega) VALUES ($1, $2, $3, $4) ON CONFLICT (cpf) DO UPDATE SET nome_completo = EXCLUDED.nome_completo RETURNING id',
-      [nome, cpf, nascimento, endereco]
-    );
-    const clienteId = clientResult.rows[0].id;
-    await pool.query(
-      'INSERT INTO tags (codigo_limpo, objeto_rastreado, cliente_id, status, ativada_em) VALUES ($1, $2, $3, $4, NOW())',
-      [codigoFormatado, objeto, clienteId, 'ativo']
-    );
-    res.status(201).json({ success: true });
-  } catch (e) {
-    console.error(e);
-    res.status(400).json({ error: "Erro no cadastro." });
+    const result = await pool.query('UPDATE pedidos SET codigo_rastreio = $1, status_envio = $2 WHERE id = $3 RETURNING email, nome', 
+    [codigoRastreio, 'enviado', pedidoId]);
+
+    if (result.rows.length > 0) {
+      const { email, nome } = result.rows[0];
+      const mailOptions = {
+        from: 'devolvaaquimooviid@gmail.com',
+        to: email,
+        subject: 'Seu kit Devolva Aqui foi enviado!',
+        html: `<h3>Boas notícias, ${nome}!</h3><p>Seu kit já está a caminho. Código de rastreio: <strong>${codigoRastreio}</strong></p>`
+      };
+      await transporter.sendMail(mailOptions);
+      res.json({ success: true });
+    }
+  } catch (err) {
+    res.status(500).json({ success: false });
   }
 });
 
-// ROTA: ADMIN
+// ROTA: LOGIN ADMIN
 app.post('/auth/login', (req, res) => {
   if (req.body.email === process.env.ADMIN_EMAIL && req.body.senha === process.env.ADMIN_PASSWORD) {
     req.session.isAdmin = true;
@@ -66,14 +90,43 @@ app.post('/auth/login', (req, res) => {
   res.send('Acesso negado.');
 });
 
+// DASHBOARD COM BOTÃO DE RASTREIO
 app.get('/admin/dashboard', async (req, res) => {
   if (!req.session.isAdmin) return res.redirect('/auth/login');
   try {
     const tags = await pool.query(`SELECT t.codigo_limpo, t.objeto_rastreado, c.nome_completo FROM tags t JOIN clientes c ON t.cliente_id = c.id`);
     const pedidos = await pool.query(`SELECT * FROM pedidos ORDER BY criado_em DESC`);
-    let tagRows = tags.rows.map(t => `<tr style="border-bottom:1px solid #333;"><td style="padding:10px;">${t.codigo_limpo}</td><td style="padding:10px;">${t.objeto_rastreado}</td><td style="padding:10px;">${t.nome_completo}</td></tr>`).join('');
-    let pedRows = pedidos.rows.map(p => `<tr style="border-bottom:1px solid #333;"><td style="padding:10px;">${p.nome}</td><td style="padding:10px;">${p.produto}</td><td style="padding:10px;">${p.email}</td></tr>`).join('');
-    res.send(`<body style="background:#000;color:#fff;padding:40px;font-family:sans-serif;"><h1>Dashboard</h1><h2>Tags</h2><table style="width:100%;">${tagRows}</table><h2>Pedidos</h2><table style="width:100%;">${pedRows}</table></body>`);
+    
+    let pedRows = pedidos.rows.map(p => `
+      <tr style="border-bottom:1px solid #333;">
+        <td style="padding:10px;">${p.nome}</td>
+        <td style="padding:10px;">${p.produto}</td>
+        <td style="padding:10px;">
+          <input type="text" id="rastreio-${p.id}" placeholder="Código" value="${p.codigo_rastreio || ''}">
+          <button onclick="enviarRastreio(${p.id})">Enviar</button>
+        </td>
+      </tr>`).join('');
+
+    res.send(`
+      <body style="background:#000;color:#fff;font-family:sans-serif;padding:20px;">
+        <h1>Painel Devolva Aqui</h1>
+        <h2>Pedidos</h2>
+        <table style="width:100%; border-collapse:collapse;">
+          <tr style="background:#1DB954;color:#000;"><th>Cliente</th><th>Produto</th><th>Rastreio</th></tr>
+          ${pedRows}
+        </table>
+        <script>
+          async function enviarRastreio(id) {
+            const cod = document.getElementById('rastreio-'+id).value;
+            const res = await fetch('/admin/send-tracking', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({pedidoId: id, codigoRastreio: cod})
+            });
+            if(res.ok) alert('Rastreio enviado por e-mail!');
+          }
+        </script>
+      </body>`);
   } catch (err) { res.status(500).send("Erro."); }
 });
 
