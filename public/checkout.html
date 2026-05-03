@@ -1,169 +1,97 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checkout - Devolva Aqui</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Devolva Aqui</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1322943693033831');
+    fbq('track', 'PageView');
+    fbq('track', 'InitiateCheckout');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1322943693033831&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
 
-<style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Inter', sans-serif; }
-
-body {
-  background:#000;
-  color:#fff;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
-}
-
-.container {
-  width:100%;
-  max-width:500px;
-  background:#111;
-  padding:30px;
-  border-radius:20px;
-  border:1px solid #222;
-}
-
-h1 {
-  text-align:center;
-  margin-bottom:20px;
-}
-
-input {
-  width:100%;
-  padding:12px;
-  margin-bottom:12px;
-  border-radius:10px;
-  border:none;
-  background:#1a1a1a;
-  color:#fff;
-}
-
-button {
-  width:100%;
-  padding:14px;
-  background:#1DB954;
-  border:none;
-  border-radius:50px;
-  font-weight:bold;
-  cursor:pointer;
-  margin-top:10px;
-}
-
-.produto {
-  text-align:center;
-  margin-bottom:20px;
-  color:#aaa;
-}
-</style>
+    <style>
+        body { background: #000; color: #fff; font-family: sans-serif; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        h2 { color: #1DB954; }
+        form { width: 100%; max-width: 500px; display: flex; flex-direction: column; background: #111; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        label { margin-bottom: 5px; font-size: 0.9em; color: #bbb; }
+        input, select { margin-bottom: 15px; padding: 12px; border-radius: 5px; border: 1px solid #333; background: #222; color: #fff; }
+        button { background: #1DB954; color: #000; padding: 18px; border: none; font-weight: bold; border-radius: 5px; cursor: pointer; font-size: 1.1em; transition: 0.3s; }
+        button:hover { background: #17a34a; transform: scale(1.02); }
+    </style>
 </head>
-
 <body>
+    <h2>Finalize seu Pedido</h2>
+    <form id="checkoutForm">
+        <label>Informações Pessoais</label>
+        <input type="text" name="nome" placeholder="Nome Completo" required>
+        <input type="email" name="email" placeholder="E-mail" required>
+        <input type="text" name="cpf" placeholder="CPF" required>
+        <input type="text" name="telefone" placeholder="WhatsApp" required>
+        
+        <label>Escolha seu Kit</label>
+        <select name="produto" id="produto">
+            <option value="kit3">03 Tags Identificadoras</option>
+            <option value="kit6">06 Tags Identificadoras (Mais vendido)</option>
+            <option value="kit12">12 Tags Identificadoras (Melhor valor)</option>
+        </select>
+        
+        <label>Endereço de Entrega</label>
+        <input type="text" name="cep" placeholder="CEP" required>
+        <input type="text" name="rua" placeholder="Rua / Logradouro" required>
+        <input type="text" name="numero" placeholder="Número" required>
+        <input type="text" name="cidade" placeholder="Cidade" required>
+        <input type="text" name="estado" placeholder="Estado (UF)" required>
+        
+        <button type="submit">Ir para Pagamento Seguro</button>
+    </form>
 
-<div class="container">
+    <script>
+        document.getElementById('checkoutForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            // Envia para o banco de dados antes de ir para o Mercado Pago
+            const res = await fetch('/orders/create', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
 
-  <h1>Finalizar compra</h1>
+            if(res.ok) {
+                // Evento de Conversão no Pixel
+                fbq('track', 'Purchase', { value: 0.00, currency: 'BRL' }); 
+                
+                const produtoSelecionado = document.getElementById('produto').value;
+                
+                // Mapeamento dos seus links oficiais do Mercado Pago
+                const links = {
+                    'kit3': 'https://mpago.la/279KBXJ',
+                    'kit6': 'https://mpago.la/2A3iSD3',
+                    'kit12': 'https://mpago.la/11eaKEp'
+                };
 
-  <div class="produto" id="produtoInfo"></div>
-
-  <input type="text" id="nome" placeholder="Nome completo" required>
-  <input type="email" id="email" placeholder="Email" required>
-  <input type="text" id="telefone" placeholder="Telefone" required>
-  <input type="text" id="cpf" placeholder="CPF (para nota fiscal)" required>
-
-  <input type="text" id="cep" placeholder="CEP" required>
-  <input type="text" id="rua" placeholder="Rua" required>
-  <input type="text" id="numero" placeholder="Número" required>
-  <input type="text" id="cidade" placeholder="Cidade" required>
-  <input type="text" id="estado" placeholder="Estado" required>
-
-  <button onclick="finalizarCompra()">Ir para pagamento</button>
-
-</div>
-
-<script>
-
-const urlParams = new URLSearchParams(window.location.search);
-const produto = urlParams.get('produto');
-
-const produtos = {
-  kit3: { nome: "Kit 3 Tags", valor: "R$ 17,90" },
-  kit6: { nome: "Kit 6 Tags", valor: "R$ 29,90" },
-  kit12: { nome: "Kit 12 Tags", valor: "R$ 49,90" }
-};
-
-if (produto && produtos[produto]) {
-  document.getElementById('produtoInfo').innerHTML =
-    produtos[produto].nome + " - " + produtos[produto].valor;
-}
-
-async function finalizarCompra() {
-
-  const nome = document.getElementById('nome').value;
-  const email = document.getElementById('email').value;
-  const telefone = document.getElementById('telefone').value;
-  const cpf = document.getElementById('cpf').value;
-
-  const cep = document.getElementById('cep').value;
-  const rua = document.getElementById('rua').value;
-  const numero = document.getElementById('numero').value;
-  const cidade = document.getElementById('cidade').value;
-  const estado = document.getElementById('estado').value;
-
-  if (!nome || !email || !telefone || !cpf) {
-    alert("Preencha todos os campos obrigatórios");
-    return;
-  }
-
-  try {
-
-    const response = await fetch('/orders/create', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        nome,
-        email,
-        telefone,
-        cpf,
-        produto,
-        cep,
-        rua,
-        numero,
-        cidade,
-        estado
-      })
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-
-      let link = "";
-
-      if (produto === "kit3") link = "https://mpago.la/279KBXJ";
-      if (produto === "kit6") link = "https://mpago.la/2A3iSD3";
-      if (produto === "kit12") link = "https://mpago.la/11eaKEp";
-
-      window.location.href = link;
-
-    } else {
-      alert("Erro: " + data.error);
-    }
-
-  } catch (error) {
-    console.error(error);
-    alert("Erro ao finalizar pedido");
-  }
-
-}
-
-</script>
-
+                // Redireciona para o link correspondente
+                window.location.href = links[produtoSelecionado]; 
+            } else {
+                alert('Erro ao processar pedido. Tente novamente.');
+            }
+        };
+    </script>
 </body>
 </html>

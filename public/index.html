@@ -1,303 +1,41 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Devolva Aqui</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devolva Aqui - Identificação Inteligente</title>
+    
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1322943693033831');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1322943693033831&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
 
-  <link href="https://googleapis.com" rel="stylesheet">
-
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter', sans-serif; }
-
-    body { background:#000; color:#fff; }
-
-    header {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:20px 40px;
-      border-bottom:1px solid #111;
-    }
-
-    header img {
-      height:180px;
-      transition:0.3s;
-    }
-
-    header img:hover {
-      filter: drop-shadow(0 0 15px #1DB954);
-    }
-
-    .menu {
-      display: flex;
-      align-items: center;
-    }
-
-    .menu a {
-      margin-left:15px;
-      padding:10px 18px;
-      border-radius:30px;
-      background:#1DB954;
-      color:#000;
-      text-decoration:none;
-      font-weight:bold;
-      font-size: 0.9rem;
-    }
-
-    .hero {
-      text-align:center;
-      padding:100px 20px 70px 20px;
-      max-width:900px;
-      margin:0 auto;
-    }
-
-    .hero h1 {
-      font-size:2.4rem;
-      line-height:1.3;
-    }
-
-    .section {
-      padding:80px 20px;
-      text-align:center;
-    }
-
-    .copy {
-      max-width:780px;
-      margin:auto;
-      text-align:left;
-      line-height:1.8;
-      color:#ccc;
-      font-size:0.98rem;
-    }
-
-    .kits-wrapper {
-      max-width:960px;
-      margin:40px auto 0 auto;
-    }
-
-    .kits {
-      display:flex;
-      justify-content:center;
-      gap:25px;
-      flex-wrap:wrap;
-      margin-top:20px;
-    }
-
-    .card {
-      background:#121212;
-      padding:30px 24px;
-      border-radius:20px;
-      width:280px;
-      border:1px solid #1a1a1a;
-      transition:0.3s;
-      text-align:left;
-    }
-
-    .card:hover {
-      transform:translateY(-10px);
-      box-shadow:0 0 25px rgba(29,185,84,0.2);
-    }
-
-    .card h3 {
-      margin-top:14px;
-      margin-bottom:6px;
-    }
-
-    .price {
-      font-size:26px;
-      color:#1DB954;
-      font-weight:bold;
-    }
-
-    .old {
-      text-decoration:line-through;
-      color:#777;
-      font-size:0.9rem;
-    }
-
-    .btn {
-      display:inline-block;
-      margin-top:20px;
-      padding:12px 20px;
-      border-radius:50px;
-      background:#1DB954;
-      color:#000;
-      text-decoration:none;
-      font-weight:bold;
-    }
-
-    .highlight {
-      color:#1DB954;
-    }
-
-    .slogan {
-      margin-top:8px;
-      color:#1DB954;
-      font-size:0.92rem;
-      font-weight:600;
-    }
-
-    footer {
-      text-align:center;
-      padding:40px;
-      color:#666;
-    }
-  </style>
+    <style>
+        body { background: #000; color: #fff; font-family: sans-serif; text-align: center; margin: 0; padding: 20px; }
+        .hero { padding: 50px 20px; }
+        .btn { background: #1DB954; color: #000; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 20px; }
+    </style>
 </head>
-
 <body>
-
-<header>
-  <a href="/">
-    <img src="/img/logo.png" alt="Devolva Aqui">
-  </a>
-  <div class="menu">
-    <a href="/register.html">Cadastrar Tag</a>
-    <a href="/login.html">Entrar</a>
-    <a href="/auth/login">Admin</a>
-  </div>
-</header>
-
-<section class="hero">
-  <h1>
-    Quando algo se perde,<br>
-    <span class="highlight">não precisa ser para sempre</span>
-  </h1>
-
-  <p style="margin-top:20px;color:#aaa;">
-    A vida é cheia de pequenos abandonos involuntários: a chave do carro que
-    fica no balcão, o fone de ouvido esquecido no ônibus, a garrafa térmica
-    que some na escola, o guarda-chuva que fica no primeiro lugar em que choveu.
-  </p>
-
-  <p style="margin-top:12px;color:#aaa;">
-    A Devolva Aqui transforma esses desaparecimentos em reencontros simples:
-    um código discreto na tag, um cadastro rápido no site e um caminho seguro
-    para que quem encontra possa chegar até você – sem expor seus dados.
-    No fim, você recupera seu item esquecido e a fé na humanidade.
-  </p>
-
-  <a href="#kits" class="btn">Quero proteger o que é meu</a>
-</section>
-
-<section class="section">
-  <div class="copy">
-
-    <p><b>Perder dói no bolso e no coração.</b></p><br>
-
-    <p>
-      Uma chave de carro perdida não é só um objeto: é guincho, chaveiro,
-      tempo parado e uma fatura alta no fim do mês. Um fone de ouvido esquecido
-      no transporte vira mais uma compra que não estava nos planos.
-    </p><br>
-
-    <p>
-      Para mães e pais, a conta vai além do valor: garrafas e copos térmicos,
-      lancheiras, guarda-chuvas e mochilas das crianças que somem na rotina
-      da escola. Todo dia alguém perde alguma coisa. O que você pode escolher
-      é se essa coisa terá ou não um caminho de volta.
-    </p><br>
-
-    <p>
-      Com as tags Devolva Aqui, cada item importante ganha um pequeno sinal de
-      “me devolva”. Você cola, cadastra o código e, se alguém encontrar, a
-      pessoa é guiada até um contato seguro com você. Simples, discreto e
-      muito mais barato do que pagar por tudo de novo.
-    </p>
-
-    <p style="margin-top:18px;color:#ccc;">
-      Se você também acredita que o mundo pode ser um lugar melhor,
-      nossas tags são para você.
-    </p>
-
-    <p class="slogan">
-      Moovi, mudamos conceitos. Movemos o Mundo.
-    </p>
-
-  </div>
-</section>
-
-<section class="section" style="background:#0a0a0a;">
-  <h2>Como usar na vida real</h2>
-
-  <div style="display:flex;flex-wrap:wrap;gap:30px;justify-content:center;margin-top:40px;">
-    <div>1. Cole a tag nos itens que não podem virar “despesa surpresa”</div>
-    <div>2. Cadastre o código da tag em <b>devolvaaqui.com.br</b></div>
-    <div>3. Quem encontrar digita o código no site</div>
-    <div>4. Você recebe o contato e combina a devolução com segurança</div>
-  </div>
-
-  <p style="margin-top:40px;color:#aaa;">
-    Não precisa de aplicativo, senha complicada ou cadastro infinito.
-    Só um pequeno código — e a boa vontade de quem encontra — para trazer
-    seus objetos de volta para casa.
-  </p>
-
-  <p style="margin-top:16px;color:#777;font-size:0.85rem;">
-    Importante: as tags não devem ser aplicadas diretamente em tecidos.
-    Use sempre em superfícies rígidas e lisas (plástico, metal, vidro etc.)
-    para maior durabilidade e legibilidade do código.
-  </p>
-</section>
-
-<section class="section" id="kits">
-
-  <div class="kits-wrapper">
-    <h2 class="highlight">🔥 PRÉ-VENDA - OFERTA ESPECIAL + FRETE GRÁTIS</h2>
-
-    <p style="margin-top:15px;color:#aaa;">
-      Uma chance de testar as tags no seu dia a dia, proteger o que é caro
-      (em valor e em afeto) e ainda economizar antes do preço normal.
-    </p>
-
-    <div class="kits">
-
-      <div class="card">
-        <img src="/img/kit3.png" style="width:100%;" alt="Kit 3 Tags">
-        <h3>Kit 3 Tags</h3>
-        <p class="old">De R$ 29,90</p>
-        <div class="price">Por R$ 17,90</div>
-        <p style="margin-top:10px;color:#999;">
-          Para quem quer começar protegendo o essencial: chave de casa,
-          chave do carro e aquele fone de ouvido que vive passeando por aí.
-        </p>
-        <a class="btn" href="/checkout.html?produto=kit3">Comprar</a>
-      </div>
-
-      <div class="card">
-        <img src="/img/kit6.png" style="width:100%;" alt="Kit 6 Tags">
-        <h3>Kit 6 Tags</h3>
-        <p class="old">De R$ 49,90</p>
-        <div class="price">Por R$ 29,90</div>
-        <p style="margin-top:10px;color:#999;">
-          Para rotinas corridas: chaves, fone, mochila, guarda-chuva,
-          crachá e aquela garrafa térmica que você não quer perder de vista.
-        </p>
-        <a class="btn" href="/checkout.html?produto=kit6">Comprar</a>
-      </div>
-
-      <div class="card">
-        <img src="/img/kit12.png" style="width:100%;" alt="Kit 12 Tags">
-        <h3>Kit 12 Tags</h3>
-        <p class="old">De R$ 79,90</p>
-        <div class="price">Por R$ 49,90</div>
-        <p style="margin-top:10px;color:#999;">
-          Pensado para famílias: garrafas e copos térmicos das crianças,
-          lancheiras, mochilas, guarda-chuvas e tudo aquilo
-          que costuma ficar para trás nos dias mais cheios.
-        </p>
-        <a class="btn" href="/checkout.html?produto=kit12">Comprar</a>
-      </div>
-
+    <div class="hero">
+        <h1>Devolva Aqui</h1>
+        <p>A forma mais segura de recuperar o que você ama.</p>
+        <a href="/register.html" class="btn">Ativar minha Tag</a>
+        <br><br>
+        <a href="/checkout.html" class="btn" style="background:#fff;">Comprar Kits</a>
     </div>
-  </div>
-</section>
-
-<footer>
-  <p>© Devolva Aqui</p>
-  <a href="/politica.html" style="color:#666;">Política de uso</a>
-</footer>
-
 </body>
 </html>
