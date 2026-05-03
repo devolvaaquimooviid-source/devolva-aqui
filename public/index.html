@@ -18,102 +18,90 @@
     fbq('init', '1322943693033831');
     fbq('track', 'PageView');
     </script>
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1322943693033831&ev=PageView&noscript=1"
-    /></noscript>
     <!-- End Meta Pixel Code -->
 
     <style>
-        body { background: #000; color: #fff; font-family: sans-serif; margin: 0; padding: 0; text-align: center; }
-        .container { padding: 15px; max-width: 800px; margin: 0 auto; box-sizing: border-box; }
+        body { background: #000; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; text-align: center; }
+        .container { padding: 15px; max-width: 800px; margin: 0 auto; position: relative; }
         
-        img { max-width: 100%; height: auto; display: block; margin: 10px auto; border-radius: 8px; }
-        .logo { width: 140px; margin-top: 10px; }
-        
-        .copy-section { text-align: left; line-height: 1.6; margin: 30px 0; padding: 0 10px; }
-        h1 { color: #1DB954; font-size: 26px; text-align: center; margin-bottom: 20px; }
-        h3 { color: #1DB954; margin-top: 25px; }
-        
-        .oferta-card { border: 1px solid #333; padding: 15px; border-radius: 10px; margin-bottom: 30px; background: #111; text-align: center; }
-        .badge-frete { background: #1DB954; color: #000; font-weight: bold; padding: 5px 10px; border-radius: 5px; display: inline-block; margin-bottom: 10px; font-size: 14px; }
-        .preco-antigo { text-decoration: line-through; color: #888; font-size: 16px; }
-        .preco-novo { color: #1DB954; font-size: 28px; font-weight: bold; display: block; margin-top: 5px; }
-        .prazo { font-size: 13px; color: #ccc; margin-top: 15px; font-style: italic; }
+        /* Navegação Admin e Conta (Topo) */
+        .top-nav { display: flex; justify-content: space-between; padding: 10px; font-size: 12px; }
+        .top-nav a { color: #555; text-decoration: none; transition: 0.3s; }
+        .top-nav a:hover { color: #1DB954; }
 
-        .btn-container { display: flex; flex-direction: column; gap: 15px; align-items: center; margin-top: 30px; }
-        .btn { background: #1DB954; color: #000; padding: 18px; text-decoration: none; border-radius: 8px; font-weight: bold; width: 95%; max-width: 350px; font-size: 18px; transition: 0.3s; display: inline-block; }
-        .btn:hover { transform: scale(1.02); }
-        .btn-white { background: #fff; }
+        img { max-width: 100%; height: auto; display: block; margin: 10px auto; border-radius: 8px; }
+        .logo { width: 140px; margin-top: 5px; }
+        
+        .copy-section { text-align: left; line-height: 1.6; margin: 20px 0; padding: 0 10px; }
+        h1 { color: #1DB954; font-size: 26px; text-align: center; margin-bottom: 20px; }
+        
+        /* Destaque de Pré-Venda */
+        .banner-promo { background: #1DB954; color: #000; padding: 10px; font-weight: bold; border-radius: 5px; margin: 20px 0; font-size: 14px; }
+
+        /* Cards de Venda */
+        .oferta-card { border: 1px solid #333; padding: 20px; border-radius: 12px; margin-bottom: 30px; background: #0a0a0a; text-align: center; }
+        .preco-antigo { text-decoration: line-through; color: #777; font-size: 16px; }
+        .preco-novo { color: #1DB954; font-size: 32px; font-weight: bold; display: block; margin: 5px 0; }
+        .prazo { font-size: 13px; color: #888; margin-top: 10px; }
+
+        .btn { background: #1DB954; color: #000; padding: 18px; text-decoration: none; border-radius: 8px; font-weight: bold; width: 95%; max-width: 350px; font-size: 18px; display: inline-block; margin-top: 15px; }
+        .btn-outline { background: transparent; border: 2px solid #1DB954; color: #1DB954; margin-top: 10px; }
 
         .instagram-link { margin-top: 40px; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-weight: bold; padding-bottom: 50px; }
     </style>
 </head>
 <body>
+    <div class="top-nav">
+        <a href="/admin-login">Login ADM</a>
+        <a href="/perfil">Alterar Cadastro / Minha Conta</a>
+    </div>
+
     <div class="container">
         <img src="img/logo.png" alt="Logo Devolva Aqui" class="logo">
         
+        <div class="banner-promo">
+            🚀 OFERTAS VÁLIDAS PARA LANÇAMENTO E PRÉ-VENDA NO MÊS DE MAIO!<br>
+            FRETE GRÁTIS PARA TODO O BRASIL DURANTE A PRÉ-VENDA
+        </div>
+
         <div class="copy-section">
             <h1>Dê uma chance para a honestidade (e para o seu bolso)</h1>
-            <p><strong>Tem gente boa no mundo, elas só precisam de um jeito fácil de te encontrar.</strong></p>
-
-            <p>Apresentamos a <strong>Devolva Aqui, as menores tags do mundo</strong>. Elas são minúsculas no tamanho, mas gigantes na missão de trazer itens perdidos para casa. Perder as chaves do carro, por exemplo, gera um transtorno logístico imenso. Nossas micro tags de 2,5mm x 20mm são o "seguro" mais inteligente que você pode ter para proteger seu patrimônio.</p>
-
+            <p>Apresentamos a <strong>Devolva Aqui, as menores tags do mundo (2,5mm x 20mm)</strong>. Minúsculas no tamanho, gigantes na missão. Perder as chaves do carro gera um transtorno financeiro e logístico imenso. Proteja seu patrimônio com a nossa tecnologia.</p>
             <p><strong>Se você também acredita que o mundo pode ser um lugar melhor, nossas micro tags são para você.</strong></p>
 
             <!-- KIT 3 -->
             <div class="oferta-card">
-                <span class="badge-frete">FRETE GRÁTIS PARA TODO O BRASIL</span>
                 <img src="img/kit3.png" alt="Kit 3 Tags">
-                <p><strong>PRÉ-VENDA COM 40% DE DESCONTO</strong></p>
-                <p>
-                    <span class="preco-antigo">De: R$ 99,90</span><br>
-                    <span class="preco-novo">Por: R$ 59,94</span>
-                </p>
-                <p class="prazo">Prazo de entrega de 30 a 40 dias úteis</p>
-                <a href="https://link.mercadopago.com.br/devolvaaquikit3" class="btn">COMPRAR KIT 3 TAGS</a>
+                <p><strong>KIT 3 TAGS - PRÉ-VENDA 40% OFF</strong></p>
+                <span class="preco-antigo">De: R$ 29,90</span>
+                <span class="preco-novo">Por: R$ 17,90</span>
+                <a href="https://link.mercadopago.com.br/devolvaaquikit3" class="btn">COMPRAR AGORA</a>
+                <p class="prazo">Prazo de entrega: 30 a 40 dias úteis</p>
             </div>
 
             <!-- KIT 6 -->
             <div class="oferta-card">
-                <span class="badge-frete">FRETE GRÁTIS PARA TODO O BRASIL</span>
                 <img src="img/kit6.png" alt="Kit 6 Tags">
-                <p><strong>PRÉ-VENDA COM 40% DE DESCONTO</strong></p>
-                <p>
-                    <span class="preco-antigo">De: R$ 166,50</span><br>
-                    <span class="preco-novo">Por: R$ 99,90</span>
-                </p>
-                <p class="prazo">Prazo de entrega de 30 a 40 dias úteis</p>
-                <a href="https://link.mercadopago.com.br/devolvaaquikit6" class="btn">COMPRAR KIT 6 TAGS</a>
+                <p><strong>KIT 6 TAGS - PRÉ-VENDA 40% OFF</strong></p>
+                <span class="preco-antigo">De: R$ 49,90</span>
+                <span class="preco-novo">Por: R$ 29,90</span>
+                <a href="https://link.mercadopago.com.br/devolvaaquikit6" class="btn">COMPRAR AGORA</a>
+                <p class="prazo">Prazo de entrega: 30 a 40 dias úteis</p>
             </div>
 
             <!-- KIT 12 -->
             <div class="oferta-card">
-                <span class="badge-frete">FRETE GRÁTIS PARA TODO O BRASIL</span>
                 <img src="img/kit12.png" alt="Kit 12 Tags">
-                <p><strong>PRÉ-VENDA COM 40% DE DESCONTO</strong></p>
-                <p>
-                    <span class="preco-antigo">De: R$ 249,83</span><br>
-                    <span class="preco-novo">Por: R$ 149,90</span>
-                </p>
-                <p class="prazo">Prazo de entrega de 30 a 40 dias úteis</p>
-                <a href="https://link.mercadopago.com.br/devolvaaquikit12" class="btn">COMPRAR KIT 12 TAGS</a>
+                <p><strong>KIT 12 TAGS - PRÉ-VENDA 40% OFF</strong></p>
+                <span class="preco-antigo">De: R$ 79,90</span>
+                <span class="preco-novo">Por: R$ 47,90</span>
+                <a href="https://link.mercadopago.com.br/devolvaaquikit12" class="btn">COMPRAR AGORA</a>
+                <p class="prazo">Prazo de entrega: 30 a 40 dias úteis</p>
             </div>
 
-            <h3>🚀 Manual de Instruções:</h3>
-            <p><strong>Passo 1: A Colagem Estratégica</strong><br>
-            Escolha o objeto, garanta que esteja <strong>limpo e bem seco</strong>, e pressione a tag por alguns segundos.</p>
-
-            <p><em>⚠️ Aviso: Não garantimos adesão duradoura em tecido, evite colá-las em roupas.</em></p>
-
-            <p><strong>💡 Sugestões de uso:</strong><br>
-            Chaves, fones (AirPods), carteira, óculos, notebook, carregadores, guarda-chuvas, drones, garrafas e copos térmicos, controle de portões e muito mais.</p>
-
-            <p><strong>Passo 2: O Registro Oficial</strong><br>
-            Acesse <strong>www.devolvaaqui.com.br</strong> e vincule seus dados ao código da tag.</p>
-        </div>
-
-        <div class="btn-container">
-            <a href="/register.html" class="btn btn-white">JÁ TENHO UMA TAG - ATIVAR</a>
+            <div style="text-align: center; margin-bottom: 40px;">
+                <a href="/register.html" class="btn btn-outline">CADASTRAR MINHA TAG</a>
+            </div>
         </div>
 
         <a href="https://www.instagram.com/devolvaaquimooviid?igsh=MWgyZmVraHozd3R3MQ==" target="_blank" class="instagram-link">
