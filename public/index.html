@@ -21,36 +21,60 @@
     <!-- End Meta Pixel Code -->
 
     <style>
-        body { background: #000; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; text-align: center; }
+        body { background: #000; color: #fff; font-family: sans-serif; margin: 0; padding: 0; text-align: center; }
         .container { padding: 15px; max-width: 800px; margin: 0 auto; position: relative; }
         
-        /* Navegação Admin e Conta (Topo) */
+        /* Banners Laterais Verticais */
+        .side-banner {
+            background: #1DB954;
+            color: #000;
+            font-weight: bold;
+            padding: 10px;
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-size: 14px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            z-index: 100;
+        }
+        .left-banner { left: 0; }
+        .right-banner { right: 0; }
+
         .top-nav { display: flex; justify-content: space-between; padding: 10px; font-size: 12px; }
-        .top-nav a { color: #555; text-decoration: none; transition: 0.3s; }
-        .top-nav a:hover { color: #1DB954; }
+        .top-nav a { color: #555; text-decoration: none; }
 
         img { max-width: 100%; height: auto; display: block; margin: 10px auto; border-radius: 8px; }
         .logo { width: 140px; margin-top: 5px; }
         
-        .copy-section { text-align: left; line-height: 1.6; margin: 20px 0; padding: 0 10px; }
-        h1 { color: #1DB954; font-size: 26px; text-align: center; margin-bottom: 20px; }
-        
-        /* Destaque de Pré-Venda */
         .banner-promo { background: #1DB954; color: #000; padding: 10px; font-weight: bold; border-radius: 5px; margin: 20px 0; font-size: 14px; }
 
-        /* Cards de Venda */
+        .copy-section { text-align: left; line-height: 1.6; margin: 30px 0; padding: 0 15px; }
+        h1 { color: #1DB954; font-size: 26px; text-align: center; }
+        h3 { color: #1DB954; margin-top: 25px; }
+        
         .oferta-card { border: 1px solid #333; padding: 20px; border-radius: 12px; margin-bottom: 30px; background: #0a0a0a; text-align: center; }
         .preco-antigo { text-decoration: line-through; color: #777; font-size: 16px; }
         .preco-novo { color: #1DB954; font-size: 32px; font-weight: bold; display: block; margin: 5px 0; }
-        .prazo { font-size: 13px; color: #888; margin-top: 10px; }
 
         .btn { background: #1DB954; color: #000; padding: 18px; text-decoration: none; border-radius: 8px; font-weight: bold; width: 95%; max-width: 350px; font-size: 18px; display: inline-block; margin-top: 15px; }
         .btn-outline { background: transparent; border: 2px solid #1DB954; color: #1DB954; margin-top: 10px; }
+        .btn-politica { font-size: 12px; color: #888; text-decoration: underline; background: none; border: none; cursor: pointer; margin-top: 20px; }
 
-        .instagram-link { margin-top: 40px; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-weight: bold; padding-bottom: 50px; }
+        footer { padding: 40px 20px; font-size: 12px; color: #666; border-top: 1px solid #222; margin-top: 50px; }
+
+        @media (max-width: 900px) { .side-banner { display: none; } }
     </style>
 </head>
 <body>
+    <div class="side-banner left-banner">LANÇAMENTO PRÉ VENDA</div>
+    <div class="side-banner right-banner">LANÇAMENTO PRÉ VENDA</div>
+
     <div class="top-nav">
         <a href="/admin-login">Login ADM</a>
         <a href="/perfil">Alterar Cadastro / Minha Conta</a>
@@ -66,8 +90,18 @@
 
         <div class="copy-section">
             <h1>Dê uma chance para a honestidade (e para o seu bolso)</h1>
-            <p>Apresentamos a <strong>Devolva Aqui, as menores tags do mundo (2,5mm x 20mm)</strong>. Minúsculas no tamanho, gigantes na missão. Perder as chaves do carro gera um transtorno financeiro e logístico imenso. Proteja seu patrimônio com a nossa tecnologia.</p>
+            <p><strong>Tem gente boa no mundo, elas só precisam de um jeito fácil de te encontrar.</strong></p>
+
+            <p>Apresentamos a <strong>Devolva Aqui, as menores tags do mundo</strong>. Elas são minúsculas no tamanho, mas gigantes na missão de trazer itens perdidos para casa. Perder as chaves do carro, por exemplo, não é apenas um prejuízo financeiro alto; é um transtorno logístico que para o seu dia e custa caro para resolver. Nossas micro tags de 2,5mm x 20mm são o "seguro" mais barato e inteligente que você pode ter para proteger seu patrimônio.</p>
+
             <p><strong>Se você também acredita que o mundo pode ser um lugar melhor, nossas micro tags são para você.</strong></p>
+
+            <h3>O Caminho da Volta:</h3>
+            <ul>
+                <li><strong>O Código da Salvação:</strong> Cada tag tem um código alfanumérico único de 6 dígitos, criado para evitar confusões de leitura.</li>
+                <li><strong>O Contato Direto:</strong> Quem encontra não precisa ser detetive. Entrou no site, digitou o ID, falou com você.</li>
+                <li><strong>O Final Feliz:</strong> Você recupera seu item e ainda recupera a fé na humanidade.</li>
+            </ul>
 
             <!-- KIT 3 -->
             <div class="oferta-card">
@@ -76,7 +110,6 @@
                 <span class="preco-antigo">De: R$ 29,90</span>
                 <span class="preco-novo">Por: R$ 17,90</span>
                 <a href="https://link.mercadopago.com.br/devolvaaquikit3" class="btn">COMPRAR AGORA</a>
-                <p class="prazo">Prazo de entrega: 30 a 40 dias úteis</p>
             </div>
 
             <!-- KIT 6 -->
@@ -86,7 +119,6 @@
                 <span class="preco-antigo">De: R$ 49,90</span>
                 <span class="preco-novo">Por: R$ 29,90</span>
                 <a href="https://link.mercadopago.com.br/devolvaaquikit6" class="btn">COMPRAR AGORA</a>
-                <p class="prazo">Prazo de entrega: 30 a 40 dias úteis</p>
             </div>
 
             <!-- KIT 12 -->
@@ -96,11 +128,23 @@
                 <span class="preco-antigo">De: R$ 79,90</span>
                 <span class="preco-novo">Por: R$ 47,90</span>
                 <a href="https://link.mercadopago.com.br/devolvaaquikit12" class="btn">COMPRAR AGORA</a>
-                <p class="prazo">Prazo de entrega: 30 a 40 dias úteis</p>
             </div>
 
-            <div style="text-align: center; margin-bottom: 40px;">
-                <a href="/register.html" class="btn btn-outline">CADASTRAR MINHA TAG</a>
+            <h3>🚀 Manual de Instruções:</h3>
+            <p><strong>Passo 1: A Colagem Estratégica</strong><br>
+            Garanta que o objeto esteja <strong>limpo e bem seco</strong> antes da aplicação. Pressione a tag por alguns segundos.</p>
+
+            <p><em>⚠️ Aviso de amigo: Nossas tags são valentes, mas não foram feitas para tecido. Como não garantimos uma adesão duradoura em tecido, evite colá-las em roupas, ok?</em></p>
+
+            <p><strong>💡 Sugestões de uso:</strong><br>
+            Chaves, AirPods, carteira, óculos, notebook, carregadores, drones, garrafas e copos térmicos, controle de portões e tudo mais que sua imaginação alcançar!</p>
+
+            <p><strong>Passo 2: O Registro Oficial</strong><br>
+            Acesse <strong>www.devolvaaqui.com.br</strong>, insira seus dados e o código da sua tag.</p>
+
+            <div style="text-align: center;">
+                <a href="/register.html" class="btn btn-outline">CADASTRAR MINHA TAG</a><br>
+                <a href="/politica" class="btn-politica">Política de Uso</a>
             </div>
         </div>
 
@@ -108,6 +152,13 @@
             <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" width="25" style="margin:0;">
             <span>@devolvaaquimooviid</span>
         </a>
+
+        <footer>
+            MOOVIDENT INOVA SIMPLES I S - ME<br>
+            CNPJ: 65.844.964/0001-61<br>
+            E-mail: devovaaquimooviid@gmail.com<br>
+            <em>Moovi, mudamos conceitos, movemos o mundo.</em>
+        </footer>
     </div>
 </body>
 </html>
