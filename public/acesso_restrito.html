@@ -1,158 +1,103 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minha Conta - Devolva Aqui</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Conta - Devolva Aqui</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1322943693033831');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1322943693033831&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
-}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-body {
-  background: #000;
-  color: #fff;
-}
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: #000; color: #fff; }
+        
+        header { padding: 20px; text-align: center; font-weight: bold; font-size: 20px; color: #1DB954; border-bottom: 1px solid #111; }
 
-header {
-  padding: 20px;
-  text-align: center;
-  font-weight: bold;
-  font-size: 20px;
-  color: #1DB954;
-  border-bottom: 1px solid #111;
-}
+        .container { max-width: 500px; margin: 60px auto; padding: 30px; background: #121212; border-radius: 20px; border: 1px solid #1a1a1a; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h1 { font-size: 24px; margin-bottom: 10px; text-align: center; color: #fff; }
+        p.subtitle { color: #aaa; text-align: center; margin-bottom: 30px; font-size: 14px; }
 
-.container {
-  max-width: 500px;
-  margin: 60px auto;
-  padding: 30px;
-  background: #121212;
-  border-radius: 20px;
-  border: 1px solid #1a1a1a;
-}
+        .form-group { margin-bottom: 20px; text-align: left; }
+        label { display: block; margin-bottom: 8px; color: #1DB954; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        
+        input { width: 100%; padding: 14px; background: #000; border: 1px solid #333; border-radius: 8px; color: #fff; font-size: 16px; transition: 0.3s; }
+        input:focus { outline: none; border-color: #1DB954; }
 
-h1 {
-  font-size: 24px;
-  margin-bottom: 10px;
-  text-align: center;
-}
+        .btn-save { width: 100%; background: #1DB954; color: #000; padding: 16px; border-radius: 50px; border: none; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; margin-top: 15px; }
+        .btn-save:hover { background: #1ed760; transform: scale(1.02); }
+        .btn-save:disabled { background: #444; cursor: not-allowed; }
 
-p.subtitle {
-  color: #aaa;
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 14px;
-}
+        .back-link { display: block; text-align: center; margin-top: 25px; color: #666; text-decoration: none; font-size: 14px; }
+        .back-link:hover { color: #1DB954; }
 
-.form-group {
-  margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  margin-bottom: 8px;
-  color: #1DB954;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-input {
-  width: 100%;
-  padding: 12px;
-  background: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: 8px;
-  color: #fff;
-  font-size: 16px;
-}
-
-input:focus {
-  outline: none;
-  border-color: #1DB954;
-}
-
-input[readonly] {
-  color: #666;
-  cursor: not-allowed;
-}
-
-.btn {
-  width: 100%;
-  background: #1DB954;
-  color: #000;
-  padding: 15px;
-  border-radius: 50px;
-  border: none;
-  font-weight: bold;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-  margin-top: 10px;
-}
-
-.btn:hover {
-  background: #1ed760;
-  transform: scale(1.02);
-}
-
-footer {
-  text-align: center;
-  padding: 40px;
-  color: #666;
-  font-size: 12px;
-}
-</style>
+        footer { text-align: center; padding: 40px; color: #444; font-size: 11px; }
+    </style>
 </head>
 
 <body>
 
-<header>
-DEVOLVA AQUI
-</header>
+<header>DEVOLVA AQUI</header>
 
 <div class="container">
-  <h1>Minha Conta</h1>
-  <p class="subtitle">Atualize seus dados de contato abaixo.</p>
+    <h1>Gerenciar Conta</h1>
+    <p class="subtitle">Atualize seus dados para que possamos entrar em contato caso seu item seja encontrado.</p>
 
-  <form id="perfilForm">
-    <div class="form-group">
-      <label>CPF (Identificador)</label>
-      <input type="text" id="cpf" placeholder="Digite seu CPF para validar" required>
-    </div>
+    <form id="perfilForm">
+        <div class="form-group">
+            <label>Confirmar CPF (Somente números)</label>
+            <input type="text" id="cpf" placeholder="00000000000" required>
+        </div>
 
-    <div class="form-group">
-      <label>Novo E-mail</label>
-      <input type="email" id="email" placeholder="seu@email.com" required>
-    </div>
+        <div class="form-group">
+            <label>Novo E-mail de Contato</label>
+            <input type="email" id="email" placeholder="seu@email.com" required>
+        </div>
 
-    <div class="form-group">
-      <label>Novo Telefone</label>
-      <input type="text" id="telefone" placeholder="(00) 00000-0000" required>
-    </div>
+        <div class="form-group">
+            <label>Novo Telefone (WhatsApp)</label>
+            <input type="text" id="telefone" placeholder="(00) 00000-0000" required>
+        </div>
 
-    <div class="form-group">
-      <label>Nova Cidade</label>
-      <input type="text" id="cidade" placeholder="Sua Cidade" required>
-    </div>
+        <div class="form-group">
+            <label>Nova Cidade / UF</label>
+            <input type="text" id="cidade" placeholder="Ex: Florianópolis / SC" required>
+        </div>
 
-    <button type="submit" class="btn">Salvar Alterações</button>
-  </form>
+        <button type="submit" class="btn-save" id="btnSalvar">Salvar Alterações</button>
+    </form>
+
+    <a href="/" class="back-link">← Voltar ao Início</a>
 </div>
 
 <footer>
-© Devolva Aqui — Todos os direitos reservados
+    MOOVIDENT INOVA SIMPLES I S - ME | CNPJ: 65.844.964/0001-61<br>
+    © Devolva Aqui — Moovi ID
 </footer>
 
 <script>
 document.getElementById('perfilForm').onsubmit = async (e) => {
     e.preventDefault();
+    const btn = document.getElementById('btnSalvar');
+    btn.disabled = true;
+    btn.innerText = 'Salvando...';
 
     const dados = {
         cpf: document.getElementById('cpf').value,
@@ -173,11 +118,14 @@ document.getElementById('perfilForm').onsubmit = async (e) => {
         if (result.success) {
             alert('Dados atualizados com sucesso!');
         } else {
-            alert('Erro ao atualizar. Verifique se o CPF está correto.');
+            alert('Erro: CPF não localizado ou falha na atualização.');
         }
     } catch (err) {
         console.error('Erro na requisição:', err);
         alert('Erro de conexão com o servidor.');
+    } finally {
+        btn.disabled = false;
+        btn.innerText = 'Salvar Alterações';
     }
 };
 </script>

@@ -18,49 +18,73 @@
     fbq('init', '1322943693033831');
     fbq('track', 'PageView');
     </script>
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1322943693033831&ev=PageView&noscript=1"
-    /></noscript>
     <!-- End Meta Pixel Code -->
 
     <style>
-        body { background: #000; color: #fff; font-family: sans-serif; padding: 20px; }
-        .form-container { max-width: 400px; margin: 0 auto; background: #111; padding: 20px; border-radius: 10px; }
-        input { width: 100%; padding: 12px; margin: 10px 0; box-sizing: border-box; border-radius: 5px; border: none; }
-        button { width: 100%; padding: 15px; background: #1DB954; color: #000; border: none; font-weight: bold; cursor: pointer; }
+        body { background: #000; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .form-container { width: 100%; max-width: 400px; background: #111; padding: 30px; border-radius: 15px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2 { color: #1DB954; text-align: center; margin-bottom: 25px; }
+        label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; margin-left: 5px; }
+        input { width: 100%; padding: 12px; margin-bottom: 20px; box-sizing: border-box; border-radius: 8px; border: 1px solid #222; background: #000; color: #fff; font-size: 16px; }
+        input:focus { border-color: #1DB954; outline: none; }
+        button { width: 100%; padding: 15px; background: #1DB954; color: #000; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #1ed760; transform: scale(1.02); }
+        .back-link { display: block; text-align: center; margin-top: 20px; color: #666; text-decoration: none; font-size: 14px; }
     </style>
 </head>
 <body>
     <div class="form-container">
         <h2>Ativar minha Tag</h2>
         <form id="registerForm">
-            <input type="text" name="codigo" placeholder="Código da Tag (ex: ABC-123)" required>
-            <input type="text" name="nome" placeholder="Seu Nome Completo" required>
-            <input type="text" name="cpf" placeholder="Seu CPF" required>
-            <input type="text" name="objeto" placeholder="O que você vai identificar? (ex: Chaves)" required>
-            <input type="text" name="endereco" placeholder="Endereço para Devolução" required>
-            <button type="submit">Ativar Agora</button>
+            <label>CÓDIGO DA TAG</label>
+            <input type="text" name="codigo" placeholder="Ex: ABC-123" required>
+            
+            <label>SEU NOME COMPLETO</label>
+            <input type="text" name="nome" placeholder="Nome do proprietário" required>
+            
+            <label>SEU CPF</label>
+            <input type="text" name="cpf" placeholder="000.000.000-00" required>
+            
+            <label>O QUE VOCÊ VAI IDENTIFICAR?</label>
+            <input type="text" name="objeto" placeholder="Ex: Chave do Carro, Mochila" required>
+            
+            <label>ENDEREÇO PARA DEVOLUÇÃO</label>
+            <input type="text" name="endereco" placeholder="Rua, número, cidade/UF" required>
+            
+            <button type="submit" id="btnAtivar">Ativar Agora</button>
         </form>
+        <a href="/" class="back-link">← Voltar para o site</a>
     </div>
 
     <script>
         document.getElementById('registerForm').onsubmit = async (e) => {
             e.preventDefault();
+            const btn = document.getElementById('btnAtivar');
+            btn.disabled = true;
+            btn.innerText = 'Ativando...';
+
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData);
 
-            const res = await fetch('/users', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
-            });
+            try {
+                const res = await fetch('/users', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
 
-            if(res.ok) {
-                fbq('track', 'CompleteRegistration');
-                alert('Tag ativada com sucesso!');
-                window.location.href = "/";
-            } else {
-                alert('Erro ao ativar. Verifique o código.');
+                if(res.ok) {
+                    fbq('track', 'CompleteRegistration');
+                    alert('Tag ativada com sucesso! Agora seu objeto está protegido.');
+                    window.location.href = "/";
+                } else {
+                    alert('Erro ao ativar. Verifique se as informações estão corretas.');
+                }
+            } catch (err) {
+                alert('Erro de conexão com o servidor.');
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Ativar Agora';
             }
         };
     </script>
