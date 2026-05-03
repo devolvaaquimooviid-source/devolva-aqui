@@ -2,9 +2,9 @@
   "name": "devolva-aqui",
   "version": "1.0.0",
   "description": "Sistema Devolva Aqui",
-  "main": "src/app.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node src/app.js"
+    "start": "node app.js"
   },
   "dependencies": {
     "express": "^4.18.2",
