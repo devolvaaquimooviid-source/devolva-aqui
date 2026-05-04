@@ -25,32 +25,62 @@ app.get('/register', (req, res) => res.sendFile(path.join(__dirname, 'public/reg
 app.get('/perfil', (req, res) => res.sendFile(path.join(__dirname, 'public/acesso_restrito.html')));
 
 // --- OPERAÇÕES ---
+
+// Correção Problema 2: Cadastro alinhado com colunas reais do banco
 app.post('/users', async (req, res) => {
-  const { codigo, nome, cpf, objeto, endereco } = req.body;
+  const { nome, cpf, nascimento, endereco, codigo, objeto } = req.body;
+  try {
+    // 1. Insere/Atualiza o Cliente
+    await pool.query(
+      `INSERT INTO clientes (nome_completo, cpf, data_nascimento, endereco_entrega) 
+       VALUES ($1, $2, $3, $4) 
+       ON CONFLICT (cpf) DO UPDATE SET nome_completo = $1, endereco_entrega = $4`,
+      [nome, cpf, nascimento, endereco]
+    );
+
+    // 2. Vincula a Tag ao Cliente (ajustado para coluna objeto_rastreado e codigo_limpo)
+    await pool.query(
+      `UPDATE tags SET objeto_rastreado = $1, status = 'ativada', ativada_em = NOW() 
+       WHERE codigo_limpo = $2`,
+      [objeto, codigo]
+    );
+
+    res.json({ success: true });
+  } catch (err) { 
+    console.error(err);
+    res.status(500).json({ success: false, message: "Erro ao cadastrar informações" }); 
+  }
+});
+
+// Correção Problema 3: Atualização de perfil
+app.post('/perfil/update', async (req, res) => {
+  const { nome, endereco, cpf } = req.body;
   try {
     await pool.query(
-      `INSERT INTO tags (codigo_tag, nome_dono, cpf_dono, objeto_identificado, endereco_entrega) VALUES ($1, $2, $3, $4, $5)`,
-      [codigo, nome, cpf, objeto, endereco]
+      `UPDATE clientes SET nome_completo = $1, endereco_entrega = $2 WHERE cpf = $3`, 
+      [nome, endereco, cpf]
     );
     res.json({ success: true });
   } catch (err) { res.status(500).json({ success: false }); }
 });
 
-app.post('/perfil/update', async (req, res) => {
-  const { email, telefone, cidade, cpf } = req.body;
-  try {
-    await pool.query(`UPDATE clientes SET email = $1, telefone = $2, cidade = $3 WHERE cpf = $4`, [email, telefone, cidade, cpf]);
-    res.json({ success: true });
-  } catch (err) { res.status(500).json({ success: false }); }
-});
-
 // --- ADMIN E ETIQUETAS ---
+
 app.post('/auth/login', (req, res) => {
   if (req.body.email === process.env.ADMIN_EMAIL && req.body.senha === process.env.ADMIN_PASSWORD) {
     req.session.isAdmin = true;
     return res.redirect('/admin/dashboard');
   }
-  res.send('Acesso negado.');
+  res.status(401).send('Acesso negado.');
+});
+
+// SOLUÇÃO PROBLEMA 1: Rota para servir o Dashboard
+app.get('/admin/dashboard', (req, res) => {
+  if (req.session.isAdmin) {
+    res.sendFile(path.join(__dirname, 'public/admin-dashboard.html'));
+  } else {
+    res.redirect('/login');
+  }
 });
 
 app.get('/admin/imprimir-postagem', async (req, res) => {

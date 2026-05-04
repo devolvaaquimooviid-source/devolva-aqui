@@ -1,92 +1,59 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ativar Tag - Devolva Aqui</title>
+<!-- Dentro do seu arquivo register.html -->
+<form id="registerForm" style="text-align: left; max-width: 400px; margin: 0 auto; padding: 20px;">
+    <h2 style="color: #1DB954; text-align: center;">Cadastrar Minha Tag</h2>
 
-    <!-- Meta Pixel Code -->
-    <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1322943693033831');
-    fbq('track', 'PageView');
-    </script>
-    <!-- End Meta Pixel Code -->
+    <label>Código da Tag (6 dígitos):</label>
+    <input type="text" name="codigo" maxlength="6" required style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #222; color: #fff;">
 
-    <style>
-        body { background: #000; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .form-container { width: 100%; max-width: 400px; background: #111; padding: 30px; border-radius: 15px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h2 { color: #1DB954; text-align: center; margin-bottom: 25px; }
-        label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; margin-left: 5px; }
-        input { width: 100%; padding: 12px; margin-bottom: 20px; box-sizing: border-box; border-radius: 8px; border: 1px solid #222; background: #000; color: #fff; font-size: 16px; }
-        input:focus { border-color: #1DB954; outline: none; }
-        button { width: 100%; padding: 15px; background: #1DB954; color: #000; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #1ed760; transform: scale(1.02); }
-        .back-link { display: block; text-align: center; margin-top: 20px; color: #666; text-decoration: none; font-size: 14px; }
-    </style>
-</head>
-<body>
-    <div class="form-container">
-        <h2>Ativar minha Tag</h2>
-        <form id="registerForm">
-            <label>CÓDIGO DA TAG</label>
-            <input type="text" name="codigo" placeholder="Ex: ABC-123" required>
-            
-            <label>SEU NOME COMPLETO</label>
-            <input type="text" name="nome" placeholder="Nome do proprietário" required>
-            
-            <label>SEU CPF</label>
-            <input type="text" name="cpf" placeholder="000.000.000-00" required>
-            
-            <label>O QUE VOCÊ VAI IDENTIFICAR?</label>
-            <input type="text" name="objeto" placeholder="Ex: Chave do Carro, Mochila" required>
-            
-            <label>ENDEREÇO PARA DEVOLUÇÃO</label>
-            <input type="text" name="endereco" placeholder="Rua, número, cidade/UF" required>
-            
-            <button type="submit" id="btnAtivar">Ativar Agora</button>
-        </form>
-        <a href="/" class="back-link">← Voltar para o site</a>
-    </div>
+    <label>Nome Completo:</label>
+    <input type="text" name="nome" required style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #222; color: #fff;">
 
-    <script>
-        document.getElementById('registerForm').onsubmit = async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('btnAtivar');
-            btn.disabled = true;
-            btn.innerText = 'Ativando...';
+    <label>E-mail:</label>
+    <input type="email" name="email" required style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #222; color: #fff;">
 
-            const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData);
+    <label>WhatsApp:</label>
+    <input type="tel" name="whatsapp" placeholder="(00) 00000-0000" required style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #222; color: #fff;">
 
-            try {
-                const res = await fetch('/users', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(data)
-                });
+    <label>CPF:</label>
+    <input type="text" name="cpf" maxlength="14" required style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #222; color: #fff;">
 
-                if(res.ok) {
-                    fbq('track', 'CompleteRegistration');
-                    alert('Tag ativada com sucesso! Agora seu objeto está protegido.');
-                    window.location.href = "/";
-                } else {
-                    alert('Erro ao ativar. Verifique se as informações estão corretas.');
-                }
-            } catch (err) {
-                alert('Erro de conexão com o servidor.');
-            } finally {
-                btn.disabled = false;
-                btn.innerText = 'Ativar Agora';
-            }
-        };
-    </script>
-</body>
-</html>
+    <label>Data de Nascimento:</label>
+    <input type="date" name="nascimento" required style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #222; color: #fff;">
+
+    <label>O que você vai rastrear? (Ex: Chave do Carro):</label>
+    <select name="objeto" required style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #222; color: #fff;">
+        <option value="">Selecione...</option>
+        <option value="Chave de Carro">Chave de Carro</option>
+        <option value="Mochila">Mochila</option>
+        <option value="Carteira">Carteira</option>
+        <option value="Notebook">Notebook</option>
+        <option value="Pet">Coleira de Pet</option>
+        <option value="Outro">Outro</option>
+    </select>
+
+    <button type="submit" style="width: 100%; background: #1DB954; color: #000; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px;">
+        ATIVAR MINHA TAG
+    </button>
+</form>
+
+<script>
+document.getElementById('registerForm').onsubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+
+    const response = await fetch('/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+    if (result.success) {
+        alert('Tag ativada com sucesso!');
+        window.location.href = '/perfil';
+    } else {
+        alert(result.message || 'Erro ao cadastrar informações.');
+    }
+};
+</script>
