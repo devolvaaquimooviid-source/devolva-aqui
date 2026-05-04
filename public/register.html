@@ -1,59 +1,94 @@
-<!-- Dentro do seu arquivo register.html -->
-<form id="registerForm" style="text-align: left; max-width: 400px; margin: 0 auto; padding: 20px;">
-    <h2 style="color: #1DB954; text-align: center;">Cadastrar Minha Tag</h2>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Tag - Devolva Aqui</title>
+    <style>
+        body { background: #000; color: #fff; font-family: sans-serif; margin: 0; padding: 0; }
+        .container { max-width: 400px; margin: 40px auto; padding: 20px; }
+        h2 { color: #1DB954; text-align: center; }
+        label { display: block; margin-top: 15px; font-size: 14px; color: #ccc; }
+        input, select { width: 100%; padding: 12px; margin-top: 5px; border-radius: 5px; border: 1px solid #333; background: #111; color: #fff; box-sizing: border-box; }
+        input:focus, select:focus { outline: none; border-color: #1DB954; }
+        .btn { width: 100%; background: #1DB954; color: #000; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 25px; font-size: 16px; }
+        .btn:hover { background: #179b46; }
+        .voltar { display: block; text-align: center; color: #1DB954; margin-top: 20px; text-decoration: none; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Ativar Minha Tag</h2>
+        <form id="registerForm">
+            <label>Código da Tag (6 dígitos):</label>
+            <input type="text" name="codigo" maxlength="6" required>
 
-    <label>Código da Tag (6 dígitos):</label>
-    <input type="text" name="codigo" maxlength="6" required style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #222; color: #fff;">
+            <label>Nome Completo:</label>
+            <input type="text" name="nome" required>
 
-    <label>Nome Completo:</label>
-    <input type="text" name="nome" required style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #222; color: #fff;">
+            <label>E-mail:</label>
+            <input type="email" name="email" required>
 
-    <label>E-mail:</label>
-    <input type="email" name="email" required style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #222; color: #fff;">
+            <label>WhatsApp:</label>
+            <input type="tel" name="whatsapp" placeholder="(00) 00000-0000" required>
 
-    <label>WhatsApp:</label>
-    <input type="tel" name="whatsapp" placeholder="(00) 00000-0000" required style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #222; color: #fff;">
+            <label>CPF:</label>
+            <input type="text" name="cpf" maxlength="14" required>
 
-    <label>CPF:</label>
-    <input type="text" name="cpf" maxlength="14" required style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #222; color: #fff;">
+            <label>Data de Nascimento:</label>
+            <input type="date" name="nascimento" required>
 
-    <label>Data de Nascimento:</label>
-    <input type="date" name="nascimento" required style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #222; color: #fff;">
+            <label>O que você vai rastrear?</label>
+            <select id="objetoSelect" name="objeto" required onchange="toggleOutro()">
+                <option value="">Selecione...</option>
+                <option value="Chave de Carro">Chave de Carro</option>
+                <option value="Mochila">Mochila</option>
+                <option value="Carteira">Carteira</option>
+                <option value="Notebook">Notebook</option>
+                <option value="Coleira de Pet">Coleira de Pet</option>
+                <option value="Outro">Outro</option>
+            </select>
 
-    <label>O que você vai rastrear? (Ex: Chave do Carro):</label>
-    <select name="objeto" required style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #222; color: #fff;">
-        <option value="">Selecione...</option>
-        <option value="Chave de Carro">Chave de Carro</option>
-        <option value="Mochila">Mochila</option>
-        <option value="Carteira">Carteira</option>
-        <option value="Notebook">Notebook</option>
-        <option value="Pet">Coleira de Pet</option>
-        <option value="Outro">Outro</option>
-    </select>
+            <!-- CAMPO ESCONDIDO PARA DIGITAÇÃO LIVRE -->
+            <input type="text" id="objetoOutro" name="objeto_outro" placeholder="Digite o nome do objeto..." style="display:none; margin-top:10px;">
 
-    <button type="submit" style="width: 100%; background: #1DB954; color: #000; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px;">
-        ATIVAR MINHA TAG
-    </button>
-</form>
+            <button type="submit" class="btn">ATIVAR MINHA TAG</button>
+        </form>
+        <a href="/" class="voltar">← Voltar para a página inicial</a>
+    </div>
 
-<script>
-document.getElementById('registerForm').onsubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
+    <script>
+        function toggleOutro() {
+            var select = document.getElementById('objetoSelect').value;
+            var inputOutro = document.getElementById('objetoOutro');
+            if (select === 'Outro') {
+                inputOutro.style.display = 'block';
+                inputOutro.required = true;
+            } else {
+                inputOutro.style.display = 'none';
+                inputOutro.required = false;
+            }
+        }
 
-    const response = await fetch('/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    });
+        document.getElementById('registerForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
 
-    const result = await response.json();
-    if (result.success) {
-        alert('Tag ativada com sucesso!');
-        window.location.href = '/perfil';
-    } else {
-        alert(result.message || 'Erro ao cadastrar informações.');
-    }
-};
-</script>
+            const response = await fetch('/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                alert('Tag ativada com sucesso!');
+                window.location.href = '/perfil';
+            } else {
+                alert(result.message || 'Erro ao cadastrar informações.');
+            }
+        };
+    </script>
+</body>
+</html>

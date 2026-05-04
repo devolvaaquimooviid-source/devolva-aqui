@@ -25,34 +25,42 @@ app.get('/register', (req, res) => res.sendFile(path.join(__dirname, 'public/reg
 app.get('/perfil', (req, res) => res.sendFile(path.join(__dirname, 'public/acesso_restrito.html')));
 
 // --- OPERAÇÕES ---
-
-// Correção Problema 2: Cadastro alinhado com colunas reais do banco
 app.post('/users', async (req, res) => {
-  const { nome, cpf, nascimento, endereco, codigo, objeto } = req.body;
+  // Recebe os dados do formulário, incluindo o novo campo "Outro"
+  const { nome, cpf, nascimento, email, whatsapp, codigo, objeto, objeto_outro } = req.body;
+  const objetoFinal = objeto === 'Outro' ? objeto_outro : objeto;
+
   try {
-    // 1. Insere/Atualiza o Cliente
-    await pool.query(
-      `INSERT INTO clientes (nome_completo, cpf, data_nascimento, endereco_entrega) 
-       VALUES ($1, $2, $3, $4) 
-       ON CONFLICT (cpf) DO UPDATE SET nome_completo = $1, endereco_entrega = $4`,
-      [nome, cpf, nascimento, endereco]
+    // 1. Insere ou atualiza o cliente. O ON CONFLICT garante que o CPF é único.
+    // O RETURNING id pega a chave desse cliente para vincular às N tags.
+    const resultCliente = await pool.query(
+      `INSERT INTO clientes (nome_completo, cpf, data_nascimento, email, whatsapp) 
+       VALUES ($1, $2, $3, $4, $5) 
+       ON CONFLICT (cpf) DO UPDATE 
+       SET nome_completo = EXCLUDED.nome_completo, email = EXCLUDED.email, whatsapp = EXCLUDED.whatsapp
+       RETURNING id`,
+      [nome, cpf, nascimento, email, whatsapp]
+    );
+    const clienteId = resultCliente.rows[0].id;
+
+    // 2. Vincula a Tag ao Cliente usando o ID. Isso permite infinitas tags para o mesmo Cliente.
+    const resultTag = await pool.query(
+      `UPDATE tags SET cliente_id = $1, objeto_rastreado = $2, status = 'ativada', ativada_em = NOW() 
+       WHERE codigo_limpo = $3 RETURNING id`,
+      [clienteId, objetoFinal, codigo]
     );
 
-    // 2. Vincula a Tag ao Cliente (ajustado para coluna objeto_rastreado e codigo_limpo)
-    await pool.query(
-      `UPDATE tags SET objeto_rastreado = $1, status = 'ativada', ativada_em = NOW() 
-       WHERE codigo_limpo = $2`,
-      [objeto, codigo]
-    );
+    if (resultTag.rowCount === 0) {
+        return res.status(400).json({ success: false, message: "Tag não encontrada ou código inválido." });
+    }
 
     res.json({ success: true });
   } catch (err) { 
     console.error(err);
-    res.status(500).json({ success: false, message: "Erro ao cadastrar informações" }); 
+    res.status(500).json({ success: false, message: "Erro no servidor. Verifique os dados e tente novamente." }); 
   }
 });
 
-// Correção Problema 3: Atualização de perfil
 app.post('/perfil/update', async (req, res) => {
   const { nome, endereco, cpf } = req.body;
   try {
@@ -66,7 +74,8 @@ app.post('/perfil/update', async (req, res) => {
 
 // --- ADMIN E ETIQUETAS ---
 
-app.post('/auth/login', (req, res) => {
+// BLINDAGEM DO NOT FOUND: Ouve as três possíveis rotas que seu HTML pode estar chamando
+app.post(['/auth/login', '/admin/login', '/login'], (req, res) => {
   if (req.body.email === process.env.ADMIN_EMAIL && req.body.senha === process.env.ADMIN_PASSWORD) {
     req.session.isAdmin = true;
     return res.redirect('/admin/dashboard');
@@ -74,7 +83,6 @@ app.post('/auth/login', (req, res) => {
   res.status(401).send('Acesso negado.');
 });
 
-// SOLUÇÃO PROBLEMA 1: Rota para servir o Dashboard
 app.get('/admin/dashboard', (req, res) => {
   if (req.session.isAdmin) {
     res.sendFile(path.join(__dirname, 'public/admin-dashboard.html'));
