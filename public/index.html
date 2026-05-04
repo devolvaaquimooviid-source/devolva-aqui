@@ -24,17 +24,13 @@
         body { background: #000; color: #fff; font-family: sans-serif; margin: 0; padding: 0; text-align: center; }
         .container { padding: 15px; max-width: 800px; margin: 0 auto; position: relative; }
         
-        .side-banner { background: #1DB954; color: #000; font-weight: bold; padding: 10px; position: fixed; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; text-orientation: mixed; font-size: 14px; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 5px; z-index: 100; }
-        .left-banner { left: 0; }
-        .right-banner { right: 0; }
-
         .top-nav { display: flex; justify-content: space-between; padding: 15px; font-size: 13px; background: #111; }
         .top-nav a { color: #1DB954; text-decoration: none; font-weight: bold; }
 
         img { max-width: 100%; height: auto; display: block; margin: 10px auto; border-radius: 8px; }
         .logo { width: 140px; margin-top: 5px; }
         
-        .banner-promo { background: #1DB954; color: #000; padding: 10px; font-weight: bold; border-radius: 5px; margin: 20px 0; font-size: 14px; }
+        .banner-promo { background: #1DB954; color: #000; padding: 12px; font-weight: bold; border-radius: 5px; margin: 20px 0; font-size: 14px; border: 2px solid #fff; }
 
         .copy-section { text-align: left; line-height: 1.6; margin: 30px 0; padding: 0 15px; }
         h1 { color: #1DB954; font-size: 26px; text-align: center; }
@@ -43,20 +39,15 @@
         .oferta-card { border: 1px solid #333; padding: 20px; border-radius: 12px; margin-bottom: 30px; background: #0a0a0a; text-align: center; }
         .preco-antigo { text-decoration: line-through; color: #777; font-size: 16px; }
         .preco-novo { color: #1DB954; font-size: 32px; font-weight: bold; display: block; margin: 5px 0; }
+        .tag-desconto { background: #cc0000; color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-bottom: 10px; display: inline-block; }
 
         .btn { background: #1DB954; color: #000; padding: 18px; text-decoration: none; border-radius: 8px; font-weight: bold; width: 95%; max-width: 350px; font-size: 18px; display: inline-block; margin-top: 15px; border: none; text-align: center; }
         .btn-outline { background: transparent; border: 2px solid #1DB954; color: #1DB954; margin-top: 10px; }
-        .btn-politica { font-size: 12px; color: #888; text-decoration: underline; background: none; border: none; cursor: pointer; display: block; margin: 20px auto; }
 
         footer { padding: 40px 20px; font-size: 12px; color: #666; border-top: 1px solid #222; margin-top: 50px; }
-
-        @media (max-width: 900px) { .side-banner { display: none; } }
     </style>
 </head>
 <body>
-    <div class="side-banner left-banner">LANÇAMENTO PRÉ VENDA</div>
-    <div class="side-banner right-banner">LANÇAMENTO PRÉ VENDA</div>
-
     <nav class="top-nav">
         <a href="/login">LOGIN ADM</a>
         <a href="/perfil">MINHA CONTA</a>
@@ -66,17 +57,27 @@
         <img src="img/logo.png" alt="Logo Devolva Aqui" class="logo">
         
         <div class="banner-promo">
-            🚀 OFERTAS VÁLIDAS PARA LANÇAMENTO E PRÉ-VENDA NO MÊS DE MAIO!<br>
-            FRETE GRÁTIS PARA TODO O BRASIL DURANTE A PRÉ-VENDA
+            🚀 OFERTA DE PRÉ-LANÇAMENTO: 40% DE DESCONTO!<br>
+            FRETE GRÁTIS PARA TODO O BRASIL 🇧🇷
         </div>
 
         <div class="copy-section">
             <h1>Dê uma chance para a honestidade (e para o seu bolso)</h1>
-            
+            <p><strong>Tem gente boa no mundo, elas só precisam de um jeito fácil de te encontrar.</strong></p>
+
+            <p>Apresentamos a <strong>Devolva Aqui</strong>. Nossas identificações são projetadas para serem as menores do mundo (2,5mm x 12mm/20mm), permitindo proteger chaves, mochilas e eletrônicos sem comprometer o design. Perder um item gera um transtorno imenso; recuperá-lo agora custa pouco.</p>
+
+            <h3>O Caminho da Volta:</h3>
+            <ul>
+                <li><strong>O Código da Salvação:</strong> Cada tag possui um código alfanumérico único de 6 dígitos para identificação precisa.</li>
+                <li><strong>O Contato Direto:</strong> Quem encontra o objeto acessa o site, digita o ID e entra em contato com você instantaneamente.</li>
+                <li><strong>O Final Feliz:</strong> Você recupera seu patrimônio e reforça sua fé na humanidade.</li>
+            </ul>
+
             <!-- KIT 3 -->
             <div class="oferta-card">
-                <img src="img/kit3.png" alt="Kit 3 Tags">
-                <p><strong>KIT 3 TAGS - PRÉ-VENDA 40% OFF</strong></p>
+                <div class="tag-desconto">40% OFF</div>
+                <p><strong>KIT 3 TAGS</strong></p>
                 <span class="preco-antigo">De: R$ 29,90</span>
                 <span class="preco-novo">Por: R$ 17,90</span>
                 <a href="https://mpago.la/279KBXJ" target="_blank" class="btn">COMPRAR AGORA</a>
@@ -84,8 +85,8 @@
 
             <!-- KIT 6 -->
             <div class="oferta-card">
-                <img src="img/kit6.png" alt="Kit 6 Tags">
-                <p><strong>KIT 6 TAGS - PRÉ-VENDA 40% OFF</strong></p>
+                <div class="tag-desconto">40% OFF</div>
+                <p><strong>KIT 6 TAGS</strong></p>
                 <span class="preco-antigo">De: R$ 49,90</span>
                 <span class="preco-novo">Por: R$ 29,90</span>
                 <a href="https://mpago.la/2A3iSD3" target="_blank" class="btn">COMPRAR AGORA</a>
@@ -93,8 +94,8 @@
 
             <!-- KIT 12 -->
             <div class="oferta-card">
-                <img src="img/kit12.png" alt="Kit 12 Tags">
-                <p><strong>KIT 12 TAGS - PRÉ-VENDA 40% OFF</strong></p>
+                <div class="tag-desconto">40% OFF</div>
+                <p><strong>KIT 12 TAGS</strong></p>
                 <span class="preco-antigo">De: R$ 79,90</span>
                 <span class="preco-novo">Por: R$ 47,90</span>
                 <a href="https://mpago.la/11eaKEp" target="_blank" class="btn">COMPRAR AGORA</a>
@@ -102,7 +103,6 @@
 
             <div style="text-align: center; margin: 30px 0;">
                 <a href="/register" class="btn btn-outline">CADASTRAR MINHA TAG</a>
-                <a href="/politica.html" class="btn-politica">Política de Uso e Privacidade</a>
             </div>
         </div>
 
@@ -110,7 +110,7 @@
             MOOVIDENT INOVA SIMPLES I S - ME<br>
             CNPJ: 65.844.964/0001-61<br>
             E-mail: devolvaaquimooviid@gmail.com<br>
-            <em>Moovi, mudamos conceitos, movemos o mundo.</em>
+            <em>Este é um produto Moovi. Mudamos conceitos, movemos o mundo.</em>
         </footer>
     </div>
 </body>
