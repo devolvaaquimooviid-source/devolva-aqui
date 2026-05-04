@@ -29,34 +29,31 @@ app.get('/perfil', (req, res) => res.sendFile(path.join(__dirname, 'public/acess
 // CADASTRO DE TAG (Permite N tags por CPF)
 app.post('/users', async (req, res) => {
   const { nome, cpf, nascimento, email, whatsapp, codigo, objeto, objeto_outro } = req.body;
-  const objetoFinal = objeto === 'Outro' ? objeto_outro : objeto;
+  const objetoFinal = (objeto === 'Outro') ? objeto_outro : objeto;
 
   try {
-    // 1. Insere ou Atualiza o Cliente (Identificado pelo CPF)
+    // 1. Cria ou atualiza o dono (Cliente)
     const resCliente = await pool.query(
       `INSERT INTO clientes (nome_completo, cpf, data_nascimento, email, whatsapp) 
        VALUES ($1, $2, $3, $4, $5) 
-       ON CONFLICT (cpf) DO UPDATE SET nome_completo = EXCLUDED.nome_completo, email = EXCLUDED.email
+       ON CONFLICT (cpf) DO UPDATE SET nome_completo = EXCLUDED.nome_completo
        RETURNING id`,
       [nome, cpf, nascimento || null, email, whatsapp]
     );
     const clienteId = resCliente.rows[0].id;
 
-    // 2. Vincula a Tag ao Cliente
-    const resTag = await pool.query(
-      `UPDATE tags SET cliente_id = $1, objeto_rastreado = $2, status = 'ativada', ativada_em = NOW() 
-       WHERE codigo_limpo = $3`,
-      [clienteId, objetoFinal, codigo]
+    // 2. CRIA A TAG NO BANCO (Agora como INSERT)
+    await pool.query(
+      `INSERT INTO tags (codigo_limpo, cliente_id, objeto_rastreado, status, ativada_em) 
+       VALUES ($1, $2, $3, 'ativada', NOW())
+       ON CONFLICT (codigo_limpo) DO UPDATE SET objeto_rastreado = EXCLUDED.objeto_rastreado`,
+      [codigo, clienteId, objetoFinal]
     );
-
-    if (resTag.rowCount === 0) {
-      return res.status(400).json({ success: false, message: "Código de Tag não encontrado." });
-    }
 
     res.json({ success: true });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: "Erro ao salvar dados." });
+    res.status(500).json({ success: false, message: "Erro ao registrar tag. Verifique se o código já foi usado." });
   }
 });
 
